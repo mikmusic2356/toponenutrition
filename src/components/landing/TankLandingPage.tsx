@@ -37,10 +37,25 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
 }) => {
   // Sabores oficiales de TANK
   const flavors = [
-    { name: 'Vainilla Coco', icon: '🥥🍃', desc: 'Suave, refrescante y natural con coco orgánico' },
-    { name: 'Choco Moca', icon: '🍫☕', desc: 'Intenso cacao con toque tostado gourmet de café' },
+    { 
+      name: 'Vainilla Coco', 
+      icon: '🥥🍃', 
+      desc: 'Suave, refrescante y natural con coco orgánico',
+      image: '/images/landing/tank-vainilla-coco-7lbs.png'
+    },
+    { 
+      name: 'Choco Moca', 
+      icon: '🍫☕', 
+      desc: 'Intenso cacao con toque tostado gourmet de café',
+      image: '/images/landing/tank-chocolate-moca.png'
+    },
   ];
   const [selectedFlavor, setSelectedFlavor] = useState<string>('Vainilla Coco');
+
+  // Imagen activa según el sabor seleccionado
+  const currentFlavorImage = selectedFlavor === 'Choco Moca'
+    ? '/images/landing/tank-chocolate-moca.png'
+    : '/images/landing/tank-vainilla-coco-7lbs.png';
 
   // Presentaciones oficiales de TANK
   const sizes = [
@@ -297,9 +312,10 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
               
               <div className="relative rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950/80 shadow-2xl p-4 sm:p-6">
                 <img
-                  src="/images/landing/tank-vainilla-coco-7lbs.png"
-                  alt="TANK Stronger Mass Gainer Top One"
-                  className="w-full h-auto object-contain img-subtle-motion drop-shadow-[0_15px_30px_rgba(154,249,30,0.2)]"
+                  src={currentFlavorImage}
+                  alt={`TANK Stronger Mass Gainer Top One - ${selectedFlavor}`}
+                  key={selectedFlavor}
+                  className="w-full h-auto object-contain img-subtle-motion drop-shadow-[0_15px_30px_rgba(154,249,30,0.2)] transition-all duration-500"
                 />
 
                 {/* Badge flotante de Superávit */}
@@ -771,19 +787,20 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
 
             </div>
 
-            {/* Columna Derecha: Tarro TANK Vainilla Coco */}
+            {/* Columna Derecha: Tarro TANK según Sabor */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative group max-w-md w-full">
                 <div className="absolute -inset-6 bg-[#9af91e]/20 rounded-3xl blur-2xl pointer-events-none group-hover:bg-[#9af91e]/30 transition-all" />
                 <div className="relative rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950/80 shadow-2xl p-6 flex flex-col items-center justify-center">
                   <img
-                    src="/images/landing/tank-vainilla-coco-7lbs.png"
-                    alt="TANK Vainilla Coco 7 lbs"
+                    src={currentFlavorImage}
+                    alt={`TANK ${selectedFlavor}`}
+                    key={selectedFlavor}
                     className="w-full h-auto max-h-[360px] object-contain transform transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="mt-4 text-center">
                     <span className="text-xs font-extrabold text-[#9af91e] tracking-wider uppercase">
-                      Presentación Container x 7 LBS
+                      Presentación Container x 7 LBS ({selectedFlavor})
                     </span>
                   </div>
                 </div>
@@ -1297,9 +1314,10 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                   {/* Imagen de la Presentación */}
                   <div className="w-full flex items-center justify-center my-4 min-h-[170px]">
                     <img
-                      src={plan.image}
-                      alt={plan.name}
-                      className="max-h-40 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)]"
+                      src={plan.id === 'tank_11lbs' ? plan.image : currentFlavorImage}
+                      alt={`${plan.name} - ${selectedFlavor}`}
+                      key={`${plan.id}-${selectedFlavor}`}
+                      className="max-h-40 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-all duration-300"
                     />
                   </div>
 
