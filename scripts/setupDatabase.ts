@@ -2,8 +2,8 @@ import { createClient } from '@libsql/client';
 import { DEFAULT_PRODUCTS } from '../src/data/defaultProducts';
 import { DEFAULT_BLOG_POSTS } from '../src/data/defaultBlogPosts';
 
-const TURSO_URL = process.env.TURSO_DATABASE_URL || 'https://toponenutrition-mikmusic2356.aws-us-east-2.turso.io';
-const TURSO_TOKEN = process.env.TURSO_AUTH_TOKEN || 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTIwMTU1ODIsImlkIjoiMDFhMTNjNzMtYWUwMS03OWZkLWE5OWUtNGM2ZTVmNjExYzg5Iiwia2lkIjoiT19jVUNRdEI2Y3hWTlBrSzJFZFJPTEI0ZUhqR2wweFEtNUlEUVNaSjBOUSIsInJpZCI6ImM2YjNjOWZiLTgzMzItNDI2NS05MzU0LTA1NWU4ZWRiMWM0MiJ9.W8HOiPbKauOePmY_j9DovV06vL95Hn5G0CzYxtC3Af0CiNfjD_gtdW20ONz_fd5HLUIi-EFJ2EWxnslurncFCA';
+const TURSO_URL = process.env.TURSO_DATABASE_URL || '';
+const TURSO_TOKEN = process.env.TURSO_AUTH_TOKEN || '';
 
 const client = createClient({
   url: TURSO_URL,
