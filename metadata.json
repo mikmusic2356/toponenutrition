@@ -1,0 +1,6 @@
+{
+  "name": "TopOneNutrition - Suplementación Deportiva y Landing Pages de Alta Conversión",
+  "description": "Plataforma de suplementos deportivos premium con páginas de aterrizaje individuales de alta conversión, comparativas transparentes y constructor visual administrativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
