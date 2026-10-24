@@ -103,22 +103,22 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
   const athleteSignals = [
     {
       id: 1,
-      image: '/images/landing/athlete-1.png',
+      image: '/images/landing/tank-athlete-1.jpg',
       text: 'Entrenas pesado cada semana pero tu peso y volumen se quedan estancados',
     },
     {
       id: 2,
-      image: '/images/landing/athlete-2.png',
+      image: '/images/landing/tank-athlete-2.jpg',
       text: 'Te cuesta consumir las 3.000+ calorías diarias que requiere tu superávit con solo comida sólida',
     },
     {
       id: 3,
-      image: '/images/landing/athlete-3.png',
+      image: '/images/landing/tank-athlete-3.jpg',
       text: 'Los gainers tradicionales te inflaman, te producen gases y pesadez por exceso de azúcares baratos',
     },
     {
       id: 4,
-      image: '/images/landing/athlete-4.png',
+      image: '/images/landing/tank-athlete-4.jpg',
       text: 'Buscas ganar masa muscular densa y limpia, no grasa retenida ni panza hinchada',
     },
   ];
