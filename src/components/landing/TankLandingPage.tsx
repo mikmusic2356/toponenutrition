@@ -299,7 +299,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                 <img
                   src="/images/landing/tank-vainilla-coco-7lbs.png"
                   alt="TANK Stronger Mass Gainer Top One"
-                  className="w-full h-auto object-contain transform transition-transform duration-700 hover:scale-105 drop-shadow-[0_15px_30px_rgba(154,249,30,0.2)]"
+                  className="w-full h-auto object-contain img-subtle-motion drop-shadow-[0_15px_30px_rgba(154,249,30,0.2)]"
                 />
 
                 {/* Badge flotante de Superávit */}
@@ -371,7 +371,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={scrollToPlans}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 font-black text-base shadow-lg shadow-[#9af91e]/25 hover:shadow-[#9af91e]/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+                className="btn-magic-glow inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 font-black text-base shadow-lg shadow-[#9af91e]/25 hover:shadow-[#9af91e]/50 cursor-pointer group"
               >
                 <span>Ver presentaciones y precios</span>
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -399,6 +399,52 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
               className="w-full h-auto object-cover max-h-[380px]"
             />
           </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* SECCIÓN VIDEO OFICIAL DE MARCA TOP ONE NUTRITION         */}
+      {/* ======================================================== */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#070707] via-neutral-950 to-[#070707] relative border-t border-neutral-900/80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          
+          <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
+            EXPERIENCIA TÁCTICA EN VIDEO
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight mb-4">
+            SOMOS TÁCTICOS Y ORGÁNICOS <br />
+            <span className="text-[#9af91e]">POR EXCELENCIA ⚡️🍃</span>
+          </h2>
+
+          <p className="text-sm sm:text-base text-neutral-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Conoce el espíritu, la disciplina y el nivel científico detrás de <strong className="text-white">TOP ONE™ Nutrition</strong>. Una marca forjada para atletas que no se conforman con menos.
+          </p>
+
+          {/* Reproductor de Video HD */}
+          <div className="relative rounded-3xl overflow-hidden border-2 border-[#9af91e]/40 bg-neutral-950 shadow-[0_0_50px_rgba(154,249,30,0.15)] group max-w-4xl mx-auto">
+            <video
+              src="/videos/topone-brand-video.mp4"
+              controls
+              playsInline
+              poster="/images/landing/tank-banner-1.png"
+              className="w-full h-auto aspect-video object-cover"
+            >
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-neutral-400">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#9af91e] animate-pulse" />
+              Calidad de Grado Deportivo Élite
+            </span>
+            <span className="text-neutral-600">·</span>
+            <span>Desarrollo con Superfoods & Quinoa</span>
+            <span className="text-neutral-600">·</span>
+            <span className="text-rose-400 font-bold">Hecho para Campeones</span>
+          </div>
+
         </div>
       </section>
 
@@ -749,7 +795,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
           <div className="flex flex-col items-center justify-center space-y-4">
             <button
               onClick={scrollToPlans}
-              className="px-12 py-5 rounded-full bg-gradient-to-r from-[#9af91e] via-[#8ae010] to-[#9af91e] hover:from-[#80d80f] hover:to-[#9af91e] text-neutral-950 font-black text-lg tracking-wider uppercase shadow-[0_0_35px_rgba(154,249,30,0.35)] hover:shadow-[0_0_50px_rgba(154,249,30,0.55)] hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-3"
+              className="btn-magic-glow px-12 py-5 rounded-full bg-gradient-to-r from-[#9af91e] via-[#8ae010] to-[#9af91e] hover:from-[#80d80f] hover:to-[#9af91e] text-neutral-950 font-black text-lg tracking-wider uppercase shadow-[0_0_35px_rgba(154,249,30,0.35)] hover:shadow-[0_0_55px_rgba(154,249,30,0.6)] cursor-pointer flex items-center gap-3"
             >
               <span>COMPRAR AHORA</span>
               <span className="w-6 h-6 rounded-full bg-neutral-950 text-[#9af91e] flex items-center justify-center text-sm font-black">
@@ -762,57 +808,74 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
       </section>
 
       {/* ======================================================== */}
-      {/* SECCIÓN 6: COMPOSICIÓN Y ROTULADO TRANSPARENTE           */}
+      {/* SECCIÓN 6: TABLA NUTRICIONAL OFICIAL TANK 7 LBS          */}
       {/* ======================================================== */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-[#070707] via-neutral-950 to-[#070707] relative border-t border-neutral-900/80">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center mb-10">
-            <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase">
-              COMPOSICIÓN DEL PRODUCTO
+          <div className="text-center mb-12">
+            <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-3">
+              TABLA NUTRICIONAL OFICIAL
             </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-white">
+              Información Nutricional Certificada <br />
+              <span className="text-[#9af91e]">TANK STRONGER MASS GAINER 7 LBS</span>
+            </h2>
+            <div className="w-16 h-0.5 bg-[#9af91e] mx-auto mt-4" />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Foto de Proteínas Versátiles TOP ONE */}
+            {/* Foto de la Tabla Nutricional TANK-7LBS-TABLA.jpg */}
             <div className="lg:col-span-6 flex justify-center">
-              <div className="relative group max-w-md w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl p-2">
+              <div className="relative group max-w-md w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl p-3">
                 <img
-                  src="/images/landing/tank-proteinas-versatiles.png"
-                  alt="Proteínas de alta gama Top One"
-                  className="w-full h-auto object-cover rounded-xl transform transition-transform duration-700 group-hover:scale-105"
+                  src="/images/landing/tank-7lbs-tabla.jpg"
+                  alt="Tabla Nutricional TANK 7 LBS Top One"
+                  className="w-full h-auto object-contain rounded-xl img-subtle-motion"
                 />
               </div>
             </div>
 
-            {/* Texto y Caja de Transparencia */}
+            {/* Desglose de Valores Clave de la Etiqueta */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
-                Revisa exactamente <br />
-                <span className="text-[#9af91e]">qué contiene esta fórmula</span> <br />
-                sin fórmulas escondidas ni rellenos
-              </h2>
-
-              <div className="w-16 h-0.5 bg-[#9af91e]" />
+              <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                Transparencia total en cada gramo que consumes
+              </h3>
 
               <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">
-                Publicamos la información nutricional completa de <strong>TANK STRONGER</strong> tal como aparece en su rotulado oficial. Puedes verificar cada gramo de proteína, carbohidrato de quinoa y aminoácidos antes de comprar.
+                Cada servicio de <strong className="text-white">TANK</strong> está formulado para entregar la máxima densidad calórica y protéica sin aditivos ocultos. Respaldado por el rotulado nutricional oficial de TOP ONE™ Nutrition.
               </p>
 
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/80 p-5 space-y-2">
-                <span className="text-[11px] font-black uppercase tracking-wider text-[#9af91e]">
-                  TRANSPARENCIA REAL TOP ONE
-                </span>
-                <p className="text-sm font-bold text-white">
-                  6 fuentes de proteína + Quinoa Orgánica completa + 4g de matriz celular de Creatina y Glutamina. Sin letras pequeñas.
-                </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-xl bg-neutral-900/80 border border-neutral-800 p-4 text-center">
+                  <div className="text-2xl sm:text-3xl font-black text-[#9af91e] font-mono">1.190</div>
+                  <span className="text-xs text-neutral-400 font-semibold">Calorías en Agua (1.500 en Leche)</span>
+                </div>
+
+                <div className="rounded-xl bg-neutral-900/80 border border-neutral-800 p-4 text-center">
+                  <div className="text-2xl sm:text-3xl font-black text-[#9af91e] font-mono">53g</div>
+                  <span className="text-xs text-neutral-400 font-semibold">Proteína Pura (69g en Leche)</span>
+                </div>
+
+                <div className="rounded-xl bg-neutral-900/80 border border-neutral-800 p-4 text-center">
+                  <div className="text-2xl sm:text-3xl font-black text-white font-mono">179g</div>
+                  <span className="text-xs text-neutral-400 font-semibold">Carbos Complejos de Quinoa</span>
+                </div>
+
+                <div className="rounded-xl bg-neutral-900/80 border border-neutral-800 p-4 text-center">
+                  <div className="text-2xl sm:text-3xl font-black text-rose-400 font-mono">4.000mg</div>
+                  <span className="text-xs text-neutral-400 font-semibold">Matriz Creatina + Glutamina</span>
+                </div>
               </div>
 
-              <div className="rounded-xl border border-neutral-800/80 bg-neutral-950/60 p-4">
-                <p className="text-[11px] text-neutral-400 leading-relaxed">
-                  Consulta la ración sugerida en la tabla de tu envase. Alimento para deportistas diseñado para apoyar un estado de superávit calórico y desarrollo muscular con entrenamiento de resistencia.
-                </p>
+              {/* Imagen adicional en punto estratégico */}
+              <div className="rounded-2xl border border-neutral-800 overflow-hidden bg-neutral-950 p-2 shadow-lg">
+                <img
+                  src="/images/landing/tank-imagen-adicional.png"
+                  alt="TOP ONE Táctico"
+                  className="w-full h-auto object-cover rounded-xl"
+                />
               </div>
             </div>
 
@@ -915,7 +978,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
           <div className="flex justify-center">
             <button
               onClick={scrollToPlans}
-              className="px-10 py-4 rounded-full bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 font-black text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(154,249,30,0.3)] hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+              className="btn-magic-glow px-10 py-4 rounded-full bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 font-black text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(154,249,30,0.3)] hover:shadow-[0_0_40px_rgba(154,249,30,0.55)] cursor-pointer flex items-center gap-2"
             >
               <span>COMPRAR AHORA</span>
               <span className="w-5 h-5 rounded-full bg-neutral-950 text-[#9af91e] flex items-center justify-center text-xs font-black">
@@ -1262,10 +1325,10 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                   <div className="pt-4">
                     <button
                       onClick={() => handleSelectPlanAndBuy(plan)}
-                      className={`w-full py-4 px-6 rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                      className={`btn-magic-glow w-full py-4 px-6 rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                         plan.isBestOption
-                          ? 'bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 shadow-lg shadow-[#9af91e]/30 hover:scale-[1.02] active:scale-[0.98]'
-                          : 'bg-white hover:bg-neutral-200 text-neutral-950 hover:scale-[1.02] active:scale-[0.98]'
+                          ? 'bg-gradient-to-r from-[#9af91e] to-[#80d80f] hover:from-[#88e010] hover:to-[#9af91e] text-neutral-950 shadow-lg shadow-[#9af91e]/30'
+                          : 'bg-white hover:bg-neutral-200 text-neutral-950'
                       }`}
                     >
                       Comprar {plan.name}
@@ -1400,7 +1463,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
           <div className="flex justify-center mb-16">
             <button
               onClick={scrollToPlans}
-              className="px-12 py-5 rounded-full bg-gradient-to-r from-[#9af91e] via-[#8ae010] to-[#9af91e] hover:from-[#80d80f] hover:to-[#9af91e] text-neutral-950 font-black text-lg tracking-wider uppercase shadow-[0_0_35px_rgba(154,249,30,0.35)] hover:shadow-[0_0_55px_rgba(154,249,30,0.55)] hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-3"
+              className="btn-magic-glow px-12 py-5 rounded-full bg-gradient-to-r from-[#9af91e] via-[#8ae010] to-[#9af91e] hover:from-[#80d80f] hover:to-[#9af91e] text-neutral-950 font-black text-lg tracking-wider uppercase shadow-[0_0_35px_rgba(154,249,30,0.35)] hover:shadow-[0_0_55px_rgba(154,249,30,0.6)] cursor-pointer flex items-center gap-3"
             >
               <span>COMPRAR AHORA</span>
               <span className="w-6 h-6 rounded-full bg-neutral-950 text-[#9af91e] flex items-center justify-center text-sm font-black">
