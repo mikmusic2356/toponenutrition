@@ -59,8 +59,8 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
     const isChoco = flavor === 'Choco Moca';
     if (sizeLbs === '2lbs') {
       return isChoco
-        ? '/images/landing/TANK-Choco-Moca-2lbs-2025.png'
-        : '/images/landing/TANK-Vainilla-coco-2lbs-2025.png';
+        ? '/images/landing/TANK-Choco-Moca-2lbss-2025.png'
+        : '/images/landing/TANK-Vainilla-coco-2lbss-2025.png';
     }
     if (sizeLbs === '3lbs') {
       return isChoco
@@ -106,7 +106,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
       priceFormatted: '$69.000',
       shippingNotice: 'Envíos a toda Colombia',
       description: 'Ideal para probar la fórmula y arrancar tu fase de superávit calórico.',
-      image: '/images/landing/TANK-Vainilla-coco-2lbs-2025.png',
+      image: '/images/landing/TANK-Vainilla-coco-2lbss-2025.png',
       badge: null,
       isBestOption: false,
       savingsBadge: null
