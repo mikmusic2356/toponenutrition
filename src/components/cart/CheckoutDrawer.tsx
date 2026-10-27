@@ -27,7 +27,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
   onCompleteOrder,
 }) => {
   const [step, setStep] = useState<'cart' | 'checkout'>('cart');
-  const [paymentMethod, setPaymentMethod] = useState<'epayco' | 'cod' | 'card' | 'bizum' | 'whatsapp'>('cod');
+  const [paymentMethod, setPaymentMethod] = useState<'epayco' | 'cod' | 'card' | 'bizum' | 'whatsapp'>('epayco');
 
   // Customer form fields
   const [name, setName] = useState('');
@@ -351,29 +351,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  {/* Option 1: Contraentrega (Default) */}
-                  <label
-                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer text-xs transition-colors ${
-                      paymentMethod === 'cod'
-                        ? 'border-[#7cb20b] bg-[#7cb20b]/5 font-semibold ring-1 ring-[#7cb20b]/40'
-                        : 'border-slate-200 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <input
-                        type="radio"
-                        name="payMethod"
-                        checked={paymentMethod === 'cod'}
-                        onChange={() => setPaymentMethod('cod')}
-                        className="text-[#7cb20b] focus:ring-[#7cb20b]"
-                      />
-                      <Package className="w-4 h-4 text-[#7cb20b]" />
-                      <span>Pago Contraentrega (Paga en efectivo al recibir)</span>
-                    </div>
-                    <span className="text-[10px] text-slate-700 font-mono bg-slate-100 px-2 py-0.5 rounded font-bold">En casa</span>
-                  </label>
-
-                  {/* Option 2: ePayco (Próximamente / Seleccionable) */}
+                  {/* Option 1: ePayco (Recomendado) */}
                   <label
                     className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer text-xs transition-colors ${
                       paymentMethod === 'epayco'
@@ -391,16 +369,16 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                       />
                       <CreditCard className="w-4 h-4 text-emerald-600" />
                       <div>
-                        <span>ePayco (Tarjetas, PSE, Nequi, Daviplata)</span>
-                        <div className="text-[10px] text-slate-500 font-normal">Pasarela de pagos en línea en Colombia</div>
+                        <span>ePayco (Tarjetas, PSE, Nequi, Daviplata, Bancolombia)</span>
+                        <div className="text-[10px] text-slate-500 font-normal">Pasarela de pagos en línea 100% segura</div>
                       </div>
                     </div>
                     <span className="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      ePayco
+                      En línea
                     </span>
                   </label>
 
-                  {/* Option 3: WhatsApp Direct */}
+                  {/* Option 2: WhatsApp Direct */}
                   <label
                     className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer text-xs transition-colors ${
                       paymentMethod === 'whatsapp'
@@ -417,7 +395,10 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                         className="text-emerald-600 focus:ring-emerald-600"
                       />
                       <MessageCircle className="w-4 h-4 text-emerald-600" />
-                      <span>Confirmar pedido con asesor por WhatsApp</span>
+                      <div>
+                        <span>Transferencia bancaria directa / WhatsApp</span>
+                        <div className="text-[10px] text-slate-500 font-normal">Coordina tu transferencia Nequi / Bancolombia con un asesor</div>
+                      </div>
                     </div>
                     <span className="text-[10px] text-emerald-800 font-mono font-bold">Chat</span>
                   </label>

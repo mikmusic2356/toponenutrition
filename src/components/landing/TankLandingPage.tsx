@@ -41,77 +41,109 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
       name: 'Vainilla Coco', 
       icon: '🥥🍃', 
       desc: 'Suave, refrescante y natural con coco orgánico',
-      image: '/images/landing/tank-vainilla-coco-7lbs.png'
+      image: '/images/landing/TANK-VAINILLA-7-lbs-2025.png',
+      badgeImage: '/icono-vainilla-coco.jpg'
     },
     { 
       name: 'Choco Moca', 
       icon: '🍫☕', 
       desc: 'Intenso cacao con toque tostado gourmet de café',
-      image: '/images/landing/tank-chocolate-moca.png'
+      image: '/images/landing/TANK-CHOCO-MOCA-7lbs-2025.png',
+      badgeImage: '/choco-moca.jpg'
     },
   ];
   const [selectedFlavor, setSelectedFlavor] = useState<string>('Vainilla Coco');
 
-  // Imagen activa según el sabor seleccionado
-  const currentFlavorImage = selectedFlavor === 'Choco Moca'
-    ? '/images/landing/tank-chocolate-moca.png'
-    : '/images/landing/tank-vainilla-coco-7lbs.png';
+  // Mapeo dinámico de imágenes según Sabor y Presentación
+  const getProductImage = (flavor: string, sizeLbs: '2lbs' | '3lbs' | '7lbs') => {
+    const isChoco = flavor === 'Choco Moca';
+    if (sizeLbs === '2lbs') {
+      return isChoco
+        ? '/images/landing/TANK-Choco-Moca-2lbs-2025.png'
+        : '/images/landing/TANK-Vainilla-coco-2lbs-2025.png';
+    }
+    if (sizeLbs === '3lbs') {
+      return isChoco
+        ? '/images/landing/TANK-CHOCO-MOCA-3-lbs-2025.png'
+        : '/images/landing/TANK-VAINILLA-3-lbs-2025.png';
+    }
+    // 7lbs
+    return isChoco
+      ? '/images/landing/TANK-CHOCO-MOCA-7lbs-2025.png'
+      : '/images/landing/TANK-VAINILLA-7-lbs-2025.png';
+  };
 
-  // Presentaciones oficiales de TANK
-  const sizes = [
-    'Container x 3 lbs (1362g)',
-    'Container x 7 lbs (3175g)',
-    'Caja Batallón 11 lbs (2 x 5.5 lbs)'
-  ];
-  const [selectedSize, setSelectedSize] = useState<string>('Container x 7 lbs (3175g)');
+  // Imagen activa para el Hero (7 LBS por defecto o según sabor)
+  const currentFlavorImage = getProductImage(selectedFlavor, '7lbs');
+
+  // Estado para la tabla nutricional interactiva (2lbs, 3lbs, 7lbs)
+  const [selectedNutritionSize, setSelectedNutritionSize] = useState<'2lbs' | '3lbs' | '7lbs'>('7lbs');
+
+  const nutritionTables = {
+    '2lbs': {
+      title: 'TANK STRONGER 2 LBS',
+      image: '/images/landing/TANK-TablaNutricional-2lbs.jpg'
+    },
+    '3lbs': {
+      title: 'TANK STRONGER 3 LBS',
+      image: '/images/landing/TANK-TablaNutricional-3lbs.jpg'
+    },
+    '7lbs': {
+      title: 'TANK STRONGER 7 LBS',
+      image: '/images/landing/TANK-TablaNutricional-7lbs.jpg'
+    }
+  };
 
   // Combos / Planes tácticos
   const plans = [
     {
-      id: 'tank_3lbs',
+      id: 'tank_2lbs',
+      sizeKey: '2lbs' as const,
       units: 1,
-      name: 'Container x 3 LBS',
-      subname: 'Arranque de Volumen Táctico',
-      price: 155000,
-      priceFormatted: '$155.000',
+      name: 'Presentación x 2 LBS',
+      subname: 'Arranque Táctico / Doypack',
+      price: 69000,
+      priceFormatted: '$69.000',
       shippingNotice: 'Envíos a toda Colombia',
       description: 'Ideal para probar la fórmula y arrancar tu fase de superávit calórico.',
-      image: '/images/landing/tank-vainilla-coco-7lbs.png',
+      image: '/images/landing/TANK-Vainilla-coco-2lbs-2025.png',
       badge: null,
       isBestOption: false,
       savingsBadge: null
     },
     {
-      id: 'tank_7lbs',
+      id: 'tank_3lbs',
+      sizeKey: '3lbs' as const,
       units: 1,
-      name: 'Container x 7 LBS',
-      subname: 'Masa Muscular de Élite',
-      price: 245000,
-      priceFormatted: '$245.000',
+      name: 'Container x 3 LBS',
+      subname: 'Volumen Táctico Continuo',
+      price: 89000,
+      priceFormatted: '$89.000',
       shippingNotice: 'Envío Express 24-48h',
-      description: 'La presentación favorita de los atletas: más tomas, constancia y progreso sostenido.',
-      image: '/images/landing/tank-vainilla-coco-7lbs.png',
+      description: 'La presentación favorita: más tomas, constancia y progreso sostenido.',
+      image: '/images/landing/TANK-VAINILLA-3-lbs-2025.png',
       badge: 'MÁS VENDIDO',
       isBestOption: true,
       savingsBadge: 'Ahorras 15%'
     },
     {
-      id: 'tank_11lbs',
-      units: 2,
-      name: 'Caja Batallón 11 LBS',
-      subname: 'Superávit Calórico Extremo (2 x 5.5 lbs)',
-      price: 330000,
-      priceFormatted: '$330.000',
+      id: 'tank_7lbs',
+      sizeKey: '7lbs' as const,
+      units: 1,
+      name: 'Container x 7 LBS',
+      subname: 'Masa Muscular de Élite',
+      price: 195000,
+      priceFormatted: '$195.000',
       shippingNotice: 'Envío Gratis a Nivel Nacional',
-      description: 'Doble ración para atletas en volumen pesado. Máximo valor por gramo de proteína y quinoa.',
-      image: '/images/landing/tank-promo-packs.png',
+      description: 'Máximo rendimiento y volumen pesado. Mayor valor por gramo de proteína y quinoa.',
+      image: '/images/landing/TANK-VAINILLA-7-lbs-2025.png',
       badge: 'MAYOR AHORRO',
       isBestOption: false,
       savingsBadge: 'Ahorras 25%'
     }
   ];
 
-  const [selectedBundleId, setSelectedBundleId] = useState<string>('tank_7lbs');
+  const [selectedBundleId, setSelectedBundleId] = useState<string>('tank_3lbs');
   const selectedPlan = plans.find(p => p.id === selectedBundleId) || plans[1];
 
   // SECTION 2: Señales de Atletas (Superávit y Volumen)
@@ -236,32 +268,32 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
     {
       question: '¿Por qué TANK STRONGER MASS GAINER es tan poderoso frente a otros gainers?',
       answer:
-        'Porque combina carbohidratos complejos y proteínas de excelente calidad en proporción inteligente (50/40). Integramos proteína de suero (Whey Protein) con Quinoa Orgánica ("Superfood") de altísimo valor biológico, prebióticos para una digestión impecable, y 4g de matriz de Creatina + Glutamina para acelerar la recuperación celular.'
+        'Porque combina carbohidratos complejos y proteínas de excelente calidad en proporción inteligente (50/40). Integramos proteína de suero (Whey Protein) con Quinoa Orgánica ("Superfood") de alto valor biológico, prebióticos para una digestión impecable, y 4g de matriz de Creatina + Glutamina para acelerar la recuperación celular.'
     },
     {
       question: '¿Cuántas calorías y proteína aporta por servicio?',
       answer:
-        'Aporta 1.190 calorías densas y 53g de proteína de alta calidad preparado en agua. Si lo preparas en leche entera o vegetal, alcanzas hasta 1.500 calorías y 69g de proteína por toma, ideal para asegurar tu superávit calórico diario.'
+        'Aporta 1.290 calorías densas y 53g de proteína de alta calidad preparado en agua. Si lo preparas en leche entera o vegetal, alcanzas hasta 1.500 calorías y 69g de proteína por toma, ideal para asegurar tu superávit calórico diario.'
     },
     {
       question: '¿Me va a generar pesadez o inflamación estomacal?',
       answer:
-        'No. A diferencia de gainers genéricos cargados de maltodextrinas baratas y azúcares simples, TANK incluye carbohidratos complejos de Quinoa Orgánica y prebióticos digestivos que garantizan una asimilación suave, protegiendo tu flora intestinal.'
+        'No. A diferencia de gainers genéricos cargados de maltodextrinas y azúcares simples, TANK incluye carbohidratos complejos de Quinoa Orgánica y sus prebióticos digestivos que garantizan una asimilación suave, protegiendo tu flora intestinal.'
     },
     {
       question: '¿Cómo y cuándo debo tomar TANK?',
       answer:
-        'Puedes dividir la porción en 2 tomas al día (por ejemplo: media porción a media mañana y media porción inmediatamente después de entrenar), o tomar una porción completa post-entreno batida con agua fresca o leche.'
+        'Puedes dividir la porción en 2 tomas al día (por ejemplo: media porción en la mañana y media porción inmediatamente después de entrenar), o tomar una porción completa post-entreno batida con agua fresca o leche.'
     },
     {
       question: '¿Qué sabores y presentaciones están disponibles?',
       answer:
-        'Viene en 2 deliciosos sabores: Vainilla Coco 🥥🍃 y Choco Moca 🍫☕. Puedes elegir entre Container de 3 LBS, Container de 7 LBS o la rendidora Caja Batallón de 11 LBS (con 2 raciones tácticas de 5.5 lbs).'
+        'Viene en 2 deliciosos sabores: Vainilla Coco 🥥🍃 y Choco Moca 🍫☕.(proximamente) Puedes elegir entre Container de 2 LBS 3 LBS, Container de 7 LBS'
     },
     {
       question: '¿Hacen envíos a toda Colombia?',
       answer:
-        'Sí. Despachamos a todas las ciudades y municipios de Colombia con entregas express 24-48 horas y múltiples medios de pago seguros (Bancolombia QR, Nequi, Tarjetas y Contraentrega).'
+        'Sí. Despachamos a todas las ciudades y municipios de Colombia con entregas express 24-48 horas y múltiples medios de pago seguros (Bancolombia QR, Nequi y Tarjetas).'
     }
   ];
 
@@ -285,7 +317,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#070707] text-white font-sans selection:bg-[#9af91e] selection:text-black">
+    <div className="min-h-screen bg-[#070707] text-white font-sans selection:bg-[#9af91e] selection:text-black overflow-x-hidden w-full max-w-full">
       
       {/* ======================================================== */}
       {/* TOP BANNER TÁCTICO                                       */}
@@ -322,7 +354,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                 <div className="absolute bottom-4 left-4 right-4 bg-neutral-950/90 border border-neutral-800 rounded-xl p-3 backdrop-blur-md flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#9af91e] animate-ping" />
-                    <span className="text-xs font-black text-white uppercase tracking-wider">1.190 kcal · 53g Proteína</span>
+                    <span className="text-xs font-black text-white uppercase tracking-wider">1.290 kcal · 53g Proteína</span>
                   </div>
                   <span className="text-[11px] font-bold text-[#9af91e] bg-[#9af91e]/10 px-2 py-0.5 rounded border border-[#9af91e]/30">
                     + Quinoa Orgánica
@@ -341,17 +373,17 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             </div>
 
             {/* Titular Principal */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-[1.08] text-white font-gunplay uppercase">
               TANK STRONGER <br />
               <span className="text-[#9af91e]">MASS GAINER</span> <br />
-              <span className="text-lg sm:text-2xl font-bold text-neutral-400 block mt-2 font-mono">
-                Whey Protein + Superfoods (Quinoa) 🍃⚡️
+              <span className="text-lg sm:text-2xl font-normal text-neutral-200 block mt-2 font-gunplay uppercase tracking-wider">
+                Whey Protein + Superfoods ⚡️
               </span>
             </h1>
 
             {/* Texto Descriptivo */}
-            <p className="text-base sm:text-lg text-neutral-300 leading-relaxed max-w-xl">
-              Fórmula hipercalórica de máxima asimilación: <strong className="text-white">53g de proteína de élite</strong>, <strong className="text-white">1.190 calorías densas</strong> y carbohidratos complejos de <strong className="text-[#9af91e]">Quinoa Orgánica</strong>. Diseñada para romper cualquier estancamiento de peso sin inflamación estomacal.
+            <p className="text-sm sm:text-lg text-neutral-300 leading-relaxed max-w-xl">
+              Fórmula hipercalórica de máxima asimilación: <strong className="text-white">53g de proteína de élite</strong>, <strong className="text-white">1.290 calorías densas</strong> y carbohidratos complejos provenientes de la <strong className="text-[#9af91e]">Quinoa</strong>. Diseñada para romper cualquier estancamiento de peso sin inflamación estomacal.
             </p>
 
             {/* Selector interactivo de Sabores en el Hero */}
@@ -359,23 +391,33 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
               <span className="text-xs font-black uppercase tracking-wider text-neutral-400 block mb-2.5">
                 Combatiente, ¿en qué bando estás? 👇
               </span>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-3">
                 {flavors.map((flv) => {
                   const isSelected = selectedFlavor === flv.name;
                   return (
                     <button
                       key={flv.name}
                       onClick={() => setSelectedFlavor(flv.name)}
-                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2 ${
+                      className={`relative p-2 rounded-2xl border transition-all cursor-pointer flex items-center gap-3 overflow-hidden text-left group ${
                         isSelected
-                          ? 'border-[#9af91e] bg-[#9af91e]/15 text-[#9af91e] ring-1 ring-[#9af91e]'
-                          : 'border-neutral-800 bg-neutral-950 text-neutral-300 hover:border-neutral-700'
+                          ? 'border-[#9af91e] bg-[#9af91e]/15 ring-2 ring-[#9af91e]/60 shadow-[0_0_20px_rgba(154,249,30,0.25)]'
+                          : 'border-neutral-800 bg-neutral-950/90 hover:border-neutral-700 hover:bg-neutral-900/80'
                       }`}
                     >
-                      <span className="text-lg">{flv.icon}</span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold truncate">{flv.name}</div>
-                        <div className="text-[10px] text-neutral-400 truncate">Sabor oficial</div>
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-neutral-700/60 bg-neutral-900">
+                        <img
+                          src={flv.badgeImage}
+                          alt={flv.name}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="min-w-0 pr-1">
+                        <div className={`text-xs font-black tracking-tight truncate ${isSelected ? 'text-[#9af91e]' : 'text-white'}`}>
+                          {flv.name}
+                        </div>
+                        <div className="text-[10px] text-neutral-400 font-medium truncate">
+                          Sabor oficial
+                        </div>
                       </div>
                     </button>
                   );
@@ -404,15 +446,15 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
       </section>
 
       {/* ======================================================== */}
-      {/* BANNER TRANSVERSAL DE APOYO (tak banner 1)               */}
+      {/* BANNER TRANSVERSAL DE APOYO (banner horizontal)          */}
       {/* ======================================================== */}
       <section className="relative w-full overflow-hidden border-y border-neutral-900 bg-neutral-950">
-        <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
-          <div className="rounded-3xl overflow-hidden border border-neutral-800 relative shadow-2xl">
+        <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
+          <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-neutral-800 relative shadow-2xl bg-black flex items-center justify-center">
             <img
-              src="/images/landing/tank-banner-1.png"
-              alt="TOP ONE TANK Mass Gainer Banner"
-              className="w-full h-auto object-cover max-h-[380px]"
+              src="/images/landing/banner-horizontal.jpg"
+              alt="TOP ONE TANK Mass Gainer Banner Horizontal"
+              className="w-full h-auto object-contain block"
             />
           </div>
         </div>
@@ -428,26 +470,50 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             EXPERIENCIA TÁCTICA EN VIDEO
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight mb-4">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
             SOMOS TÁCTICOS Y ORGÁNICOS <br />
             <span className="text-[#9af91e]">POR EXCELENCIA ⚡️🍃</span>
           </h2>
 
-          <p className="text-sm sm:text-base text-neutral-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-xs sm:text-base text-neutral-300 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed">
             Conoce el espíritu, la disciplina y el nivel científico detrás de <strong className="text-white">TOP ONE™ Nutrition</strong>. Una marca forjada para atletas que no se conforman con menos.
           </p>
 
-          {/* Reproductor de Video HD */}
-          <div className="relative rounded-3xl overflow-hidden border-2 border-[#9af91e]/40 bg-neutral-950 shadow-[0_0_50px_rgba(154,249,30,0.15)] group max-w-4xl mx-auto">
-            <video
-              src="/videos/topone-brand-video.mp4"
-              controls
-              playsInline
-              poster="/images/landing/tank-banner-1.png"
-              className="w-full h-auto aspect-video object-cover"
-            >
-              Tu navegador no soporta la reproducción de video HTML5.
-            </video>
+          {/* Tarjeta de Acceso a Video Externo en Instagram */}
+          <div className="relative rounded-3xl overflow-hidden border-2 border-[#9af91e]/40 bg-neutral-950 shadow-[0_0_50px_rgba(154,249,30,0.15)] group max-w-2xl mx-auto p-4 sm:p-6 text-center">
+            <div className="relative aspect-video rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 flex flex-col items-center justify-center group-hover:border-[#9af91e]/50 transition-all">
+              <img
+                src="/images/landing/banner-horizontal.jpg"
+                alt="Reel Oficial TOP ONE TANK en Instagram"
+                className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-500"
+              />
+              <div className="relative z-10 flex flex-col items-center justify-center p-6 text-center">
+                <a
+                  href="https://www.instagram.com/reel/CzEmChCup6u/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform mb-4 cursor-pointer"
+                  aria-label="Ver video en Instagram"
+                >
+                  <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-white translate-x-0.5" />
+                </a>
+
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-950/80 border border-neutral-700 text-xs text-white mb-2 backdrop-blur-sm">
+                  <Instagram className="w-3.5 h-3.5 text-pink-500" />
+                  <span>Ver en Instagram Reels</span>
+                </div>
+
+                <a
+                  href="https://www.instagram.com/reel/CzEmChCup6u/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-white hover:text-[#9af91e] transition-colors"
+                >
+                  <span>Ver experiencia táctica oficial</span>
+                  <ExternalLink className="w-4 h-4 text-[#9af91e]" />
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-neutral-400">
@@ -474,7 +540,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-black tracking-widest uppercase mb-3">
               ¿TE IDENTIFICAS CON ESTO?
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white">
               Obstáculos que enfrentan los atletas buscando <span className="text-[#9af91e]">ganar masa muscular</span>
             </h2>
           </div>
@@ -588,7 +654,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                 Quinoa Orgánica & Whey Protein
               </h2>
 
-              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <p className="text-xs sm:text-base text-neutral-300 leading-relaxed">
                 Única con ingredientes que el atleta de alto rendimiento realmente necesita. Un desarrollo pensado en la combinación de componentes científicamente comprobados como fuente de proteína de alto valor biológico e ingredientes orgánicos de altísimo aporte nutricional (&quot;SUPERFOODS&quot;), como la <strong>QUINOA</strong>.
               </p>
 
@@ -604,12 +670,12 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
               </div>
             </div>
 
-            {/* Imagen Atleta con Tarro TANK (D:\hombre mostrando con sus manos la proteina.PNG) */}
+            {/* Imagen Atleta con Tarro TANK */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative max-w-sm w-full rounded-2xl border border-neutral-800 bg-neutral-950 p-3 shadow-2xl overflow-hidden group">
                 <img
-                  src="/images/landing/tank-hombre-manos.png"
-                  alt="Hombre mostrando TANK Stronger Mass Gainer"
+                  src="/images/landing/hombre-presentando-nuevo-producto.jpg"
+                  alt="Hombre presentando el nuevo producto TANK Stronger Mass Gainer"
                   className="w-full h-auto object-cover rounded-xl transform transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute bottom-6 left-6 right-6 bg-neutral-950/90 border border-[#9af91e]/50 p-3 rounded-xl text-center">
@@ -640,11 +706,11 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             TU BASE DE ENTRENAMIENTO
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
             Tu rutina pesada, tu descanso, tu constancia...
           </h2>
 
-          <p className="text-base sm:text-xl font-bold text-[#9af91e] mb-12">
+          <p className="text-sm sm:text-xl font-bold text-[#9af91e] mb-10 sm:mb-12">
             ¿Y si además tuvieras el combustible calórico correcto?
           </p>
 
@@ -733,7 +799,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                 FÓRMULA HIPERCALÓRICA PRO
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
                 TANK STRONGER <span className="text-[#9af91e]">MASS GAINER</span>
               </h2>
 
@@ -743,7 +809,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
 
               {/* Banner Verde Lima Táctico */}
               <div className="rounded-xl bg-gradient-to-r from-[#9af91e] to-[#79ce0a] p-4 text-neutral-950 font-black text-xs sm:text-sm tracking-wide uppercase shadow-lg shadow-[#9af91e]/20">
-                1.190 CALORÍAS · 53G PROTEÍNA · SIN INFLAMACIÓN DIGESTIVA
+                1.290 CALORÍAS · 53G PROTEÍNA · SIN INFLAMACIÓN DIGESTIVA
               </div>
 
               {/* Checks oficiales de la información provista */}
@@ -753,7 +819,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                     ✓
                   </div>
                   <span className="text-xs sm:text-sm font-semibold text-neutral-200">
-                    <strong className="text-white">ULTRA HIGH CALORIE:</strong> 1.190 calorías x servicio (hasta 1.500 kcal preparadas en leche).
+                    <strong className="text-white">ULTRA HIGH CALORIE:</strong> 1.290 calorías x servicio (hasta 1.500 kcal preparadas en leche).
                   </span>
                 </div>
 
@@ -825,7 +891,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
       </section>
 
       {/* ======================================================== */}
-      {/* SECCIÓN 6: TABLA NUTRICIONAL OFICIAL TANK 7 LBS          */}
+      {/* SECCIÓN 6: TABLA NUTRICIONAL OFICIAL TANK                */}
       {/* ======================================================== */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-[#070707] via-neutral-950 to-[#070707] relative border-t border-neutral-900/80">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -834,21 +900,43 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-3">
               TABLA NUTRICIONAL OFICIAL
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
               Información Nutricional Certificada <br />
-              <span className="text-[#9af91e]">TANK STRONGER MASS GAINER 7 LBS</span>
+              <span className="text-[#9af91e]">{nutritionTables[selectedNutritionSize].title}</span>
             </h2>
             <div className="w-16 h-0.5 bg-[#9af91e] mx-auto mt-4" />
+
+            {/* Selector interactivo de presentación para ver tabla */}
+            <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-neutral-900 border border-neutral-800 max-w-full">
+              {(['2lbs', '3lbs', '7lbs'] as const).map((sizeKey) => {
+                const label = sizeKey === '2lbs' ? 'Presentación 2 LBS' : sizeKey === '3lbs' ? 'Container 3 LBS' : 'Container 7 LBS';
+                const isSelected = selectedNutritionSize === sizeKey;
+                return (
+                  <button
+                    key={sizeKey}
+                    onClick={() => setSelectedNutritionSize(sizeKey)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#9af91e] text-neutral-950 shadow-md font-black'
+                        : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Foto de la Tabla Nutricional TANK-7LBS-TABLA.jpg */}
+            {/* Foto de la Tabla Nutricional dinámica */}
             <div className="lg:col-span-6 flex justify-center">
               <div className="relative group max-w-md w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl p-3">
                 <img
-                  src="/images/landing/tank-7lbs-tabla.jpg"
-                  alt="Tabla Nutricional TANK 7 LBS Top One"
+                  src={nutritionTables[selectedNutritionSize].image}
+                  alt={`Tabla Nutricional ${nutritionTables[selectedNutritionSize].title} Top One`}
+                  key={selectedNutritionSize}
                   className="w-full h-auto object-contain rounded-xl img-subtle-motion"
                 />
               </div>
@@ -856,17 +944,17 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
 
             {/* Desglose de Valores Clave de la Etiqueta */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+              <h3 className="text-xl sm:text-3xl font-black text-white leading-tight">
                 Transparencia total en cada gramo que consumes
               </h3>
 
-              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <p className="text-xs sm:text-base text-neutral-300 leading-relaxed">
                 Cada servicio de <strong className="text-white">TANK</strong> está formulado para entregar la máxima densidad calórica y protéica sin aditivos ocultos. Respaldado por el rotulado nutricional oficial de TOP ONE™ Nutrition.
               </p>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-xl bg-neutral-900/80 border border-neutral-800 p-4 text-center">
-                  <div className="text-2xl sm:text-3xl font-black text-[#9af91e] font-mono">1.190</div>
+                  <div className="text-2xl sm:text-3xl font-black text-[#9af91e] font-mono">1.290</div>
                   <span className="text-xs text-neutral-400 font-semibold">Calorías en Agua (1.500 en Leche)</span>
                 </div>
 
@@ -911,7 +999,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
               COMPARATIVA DIRECTA
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
               Gainer Genérico vs. <br />
               <span className="text-[#9af91e]">TANK STRONGER MASS GAINER</span>
             </h2>
@@ -980,8 +1068,9 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="lg:col-span-4 flex justify-center">
               <div className="relative rounded-2xl border border-neutral-800 bg-neutral-950 p-6 flex flex-col items-center justify-center max-w-sm w-full shadow-2xl">
                 <img
-                  src="/images/landing/tank-vainilla-coco-7lbs.png"
-                  alt="TANK Stronger Top One"
+                  src={currentFlavorImage}
+                  alt={`TANK Stronger Top One - ${selectedFlavor}`}
+                  key={selectedFlavor}
                   className="w-full h-auto max-h-[300px] object-contain drop-shadow-[0_10px_25px_rgba(154,249,30,0.2)]"
                 />
                 <span className="text-xs font-black text-[#9af91e] mt-4 uppercase">
@@ -1017,7 +1106,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
               EXPERIENCIAS DE COMBATE
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
               Atletas que transformaron su <br />
               <span className="text-[#9af91e]">fase de volumen con TANK</span>
             </h2>
@@ -1135,7 +1224,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
               VIDEOS Y EXPERIENCIAS
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
               Mira contenido táctico de <br />
               <span className="text-[#9af91e]">TOP ONE NUTRITION</span>
             </h2>
@@ -1259,7 +1348,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
               ELIGE TU PRESENTACIÓN TÁCTICA
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white">
+            <h2 className="text-2xl sm:text-5xl font-black text-white">
               Elige tu ración de <br />
               <span className="text-[#9af91e]">TANK STRONGER MASS GAINER</span>
             </h2>
@@ -1272,13 +1361,17 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                 <button
                   key={f.name}
                   onClick={() => setSelectedFlavor(f.name)}
-                  className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                     selectedFlavor === f.name
                       ? 'bg-[#9af91e] text-neutral-950 shadow-md'
-                      : 'text-neutral-300 hover:text-white'
+                      : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
                   }`}
                 >
-                  <span>{f.icon}</span>
+                  <img
+                    src={f.badgeImage}
+                    alt={f.name}
+                    className="w-5 h-5 rounded-md object-cover border border-neutral-700/50"
+                  />
                   <span>{f.name}</span>
                 </button>
               ))}
@@ -1314,7 +1407,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
                   {/* Imagen de la Presentación */}
                   <div className="w-full flex items-center justify-center my-4 min-h-[170px]">
                     <img
-                      src={plan.id === 'tank_11lbs' ? plan.image : currentFlavorImage}
+                      src={getProductImage(selectedFlavor, plan.sizeKey)}
                       alt={`${plan.name} - ${selectedFlavor}`}
                       key={`${plan.id}-${selectedFlavor}`}
                       className="max-h-40 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-all duration-300"
@@ -1371,7 +1464,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             <div className="inline-block px-4 py-1.5 rounded-full border border-[#9af91e]/30 bg-[#9af91e]/10 text-[#9af91e] text-xs font-black tracking-widest uppercase mb-4">
               PREGUNTAS FRECUENTES
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white">
+            <h2 className="text-2xl sm:text-5xl font-black text-white">
               Resuelve tus dudas antes de <br />
               <span className="text-[#9af91e]">elegir tu presentación</span>
             </h2>
@@ -1431,13 +1524,13 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
             COMPRA SEGURA TOP ONE
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight mb-4">
+          <h2 className="text-2xl sm:text-5xl font-black text-white leading-tight mb-4">
             Paga fácil y seguro con <br />
             <span className="text-[#9af91e]">medios confiables</span>
           </h2>
 
           <p className="text-sm sm:text-base text-neutral-300 max-w-xl mx-auto mb-10 leading-relaxed">
-            En el checkout podrás elegir entre transferencias, Nequi, tarjetas de crédito, corresponsales y pago contraentrega.
+            En el checkout podrás elegir entre transferencias bancarias, Nequi, Daviplata, Bancolombia QR y tarjetas de crédito de forma 100% segura.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
@@ -1492,7 +1585,7 @@ export const TankLandingPage: React.FC<TankLandingPageProps> = ({
 
           <div className="border-t border-neutral-900 pt-8 max-w-3xl mx-auto">
             <p className="text-[11px] text-neutral-500 leading-relaxed">
-              TOP ONE™ Nutrition - ¡Somos tácticos y orgánicos por excelencia! WHEY PROTEIN + SUPERFOODS 🍃⚡️. Consíguela en nuestra base: www.toponenutrition.com. Registro sanitario vigente.
+              TOP ONE™ Nutrition - ¡Somos tácticos y orgánicos por excelencia! WHEY PROTEIN + SUPERFOODS ⚡️. Consíguela en nuestra base: www.toponenutrition.com. Registro sanitario vigente.
             </p>
           </div>
 
