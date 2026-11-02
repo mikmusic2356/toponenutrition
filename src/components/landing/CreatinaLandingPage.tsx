@@ -33,13 +33,14 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
   onAddToCart,
   onBuyNow,
 }) => {
-  // Sabores oficiales de CREATINA MONOHIDRATO DELTA
+  // Sabores oficiales de CREATINA MONOHIDRATO DELTA con sus respectivas imágenes
   const flavors = [
     { 
       name: 'Sin Sabor', 
       icon: '⚡', 
       desc: '100% pura, versátil y perfecta para combinar con cualquier batido o agua',
       image: '/images/landing/creatina-unidad-sin-sabor.jpeg',
+      badgeImage: '/images/landing/sin sabor.jpg',
       badgeColor: '#4c6976'
     },
     { 
@@ -47,6 +48,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🥭', 
       desc: 'Sabor tropical cítrico, ultra refrescante en agua bien fría',
       image: '/images/landing/creatina-unidad-maracuya.jpeg',
+      badgeImage: '/images/landing/sabor a maracuya.jpg',
       badgeColor: '#eab308'
     },
     { 
@@ -54,6 +56,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🍇', 
       desc: 'Delicioso e intenso toque dulce frutal con disolución instantánea',
       image: '/images/landing/creatina-unidad-uva.jpeg',
+      badgeImage: '/images/landing/sabor uva.jpg',
       badgeColor: '#9333ea'
     },
     { 
@@ -61,6 +64,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🍓', 
       desc: 'Explosión de frutos silvestres para recargar tu energía con sabor premium',
       image: '/images/landing/creatina-unidad-frutos-rojos.jpeg',
+      badgeImage: '/images/landing/Translate_text_to_Spanish_8dd6df73.jpg',
       badgeColor: '#e11d48'
     },
   ];
@@ -350,36 +354,50 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
                 </div>
               </div>
 
-              {/* Selector interactivo de Sabores en el Hero */}
+              {/* Selector interactivo de Sabores con Imágenes en el Hero */}
               <div className="pt-2">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-500">
                     Sabor activo: <span className="text-[#4c6976]">{selectedFlavor}</span>
                   </span>
                   <span className="text-[11px] text-slate-400 font-medium">
-                    Haz clic para cambiar de sabor
+                    Haz clic en una imagen para cambiar de sabor
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {flavors.map((flv) => {
                     const isSelected = selectedFlavor === flv.name;
                     return (
                       <button
                         key={flv.name}
                         onClick={() => setSelectedFlavor(flv.name)}
-                        className={`relative p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer flex items-center gap-2.5 ${
+                        className={`relative p-2 rounded-2xl border text-left transition-all duration-200 cursor-pointer flex flex-col items-center gap-2 group ${
                           isSelected
-                            ? 'border-[#4c6976] bg-white ring-2 ring-[#4c6976]/40 shadow-md'
-                            : 'border-slate-200 bg-white/70 hover:border-slate-300 hover:bg-white'
+                            ? 'border-[#4c6976] bg-white ring-2 ring-[#4c6976]/40 shadow-lg -translate-y-0.5'
+                            : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md'
                         }`}
                       >
-                        <span className="text-xl shrink-0">{flv.icon}</span>
-                        <div className="min-w-0 pr-1">
-                          <div className={`text-xs font-black truncate ${isSelected ? 'text-[#4c6976]' : 'text-slate-800'}`}>
+                        {/* Contenedor de la Imagen del Sabor */}
+                        <div className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 relative">
+                          <img
+                            src={flv.badgeImage}
+                            alt={`Sabor ${flv.name}`}
+                            className="w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                          />
+                          {isSelected && (
+                            <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#4c6976] text-white flex items-center justify-center text-[10px] font-black shadow-md">
+                              ✓
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Nombre del Sabor */}
+                        <div className="w-full text-center px-1">
+                          <div className={`text-xs font-black uppercase truncate ${isSelected ? 'text-[#4c6976]' : 'text-slate-800'}`}>
                             {flv.name}
                           </div>
-                          <div className="text-[10px] text-slate-400 truncate">
+                          <div className="text-[10px] text-slate-400 font-medium">
                             360g / 60 serv
                           </div>
                         </div>
@@ -580,13 +598,13 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Foto de la Tabla Nutricional oficial */}
+            {/* Foto de la Tabla Nutricional oficial reemplazada por Fitness Hombre Creatina DELTA */}
             <div className="lg:col-span-6 flex justify-center">
               <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white p-3 shadow-xl max-w-md w-full">
                 <img
-                  src="/images/landing/creatina-tabla-nutricional.jpg"
-                  alt="Tabla Nutricional Oficial Creatina DELTA Monohidrato"
-                  className="w-full h-auto object-contain rounded-xl"
+                  src="/images/landing/creatina-hombre-fitness.jpeg"
+                  alt="Fitness Hombre Creatina DELTA Monohidrato"
+                  className="w-full h-auto object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -855,25 +873,32 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
               Aprovecha los descuentos escalonados por cantidad. Envíos directos desde fábrica a cualquier ciudad o municipio de Colombia.
             </p>
 
-            {/* Selector de Sabor para la Compra */}
-            <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2 p-2 rounded-2xl bg-white border border-slate-200 shadow-sm">
-              <span className="text-xs font-black uppercase tracking-wider text-slate-500 px-3">
+            {/* Selector de Sabor para la Compra con imágenes */}
+            <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 p-3 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-500 px-2 w-full sm:w-auto text-center">
                 Sabor para tu pedido:
               </span>
-              {flavors.map((flv) => (
-                <button
-                  key={flv.name}
-                  onClick={() => setSelectedFlavor(flv.name)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
-                    selectedFlavor === flv.name
-                      ? 'bg-[#4c6976] text-white shadow-md'
-                      : 'text-slate-700 hover:text-black hover:bg-slate-100'
-                  }`}
-                >
-                  <span>{flv.icon}</span>
-                  <span>{flv.name}</span>
-                </button>
-              ))}
+              {flavors.map((flv) => {
+                const isSelected = selectedFlavor === flv.name;
+                return (
+                  <button
+                    key={flv.name}
+                    onClick={() => setSelectedFlavor(flv.name)}
+                    className={`px-3 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2.5 ${
+                      isSelected
+                        ? 'bg-[#4c6976] text-white shadow-md ring-2 ring-[#4c6976]/40'
+                        : 'text-slate-700 hover:text-black hover:bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    <img
+                      src={flv.badgeImage}
+                      alt={flv.name}
+                      className="w-7 h-7 rounded-lg object-cover border border-white/40 shrink-0"
+                    />
+                    <span>{flv.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
