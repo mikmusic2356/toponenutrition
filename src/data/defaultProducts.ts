@@ -2,6 +2,248 @@ import { Product } from '../types/product';
 
 export const DEFAULT_PRODUCTS: Product[] = [
   {
+    "id": "prod_creatina_01",
+    "slug": "creatina-monohidrato",
+    "name": "CREATINA MONOHIDRATO DELTA // 100% PURA",
+    "tagline": "Potencia celular pura: 5000mg de Creatina Monohidrato micronizada, 60 servicios reales y 0% azúcar",
+    "category": "creatina",
+    "badge": "100% Pura Micronizada · 60 Servicios Reales",
+    "rating": 4.99,
+    "reviewsCount": 1850,
+    "basePrice": 85000,
+    "originalPrice": 105000,
+    "flavors": [
+      "Sin Sabor",
+      "Maracuyá",
+      "Uva",
+      "Frutos Rojos"
+    ],
+    "sizes": [
+      "360g (60 Servicios)"
+    ],
+    "imageType": "custom",
+    "customImageUrl": "/images/landing/creatina-unidad-sin-sabor.jpeg",
+    "gallery": [
+      "/images/landing/creatina-unidad-sin-sabor.jpeg",
+      "/images/landing/creatina-unidad-maracuya.jpeg",
+      "/images/landing/creatina-unidad-uva.jpeg",
+      "/images/landing/creatina-unidad-frutos-rojos.jpeg"
+    ],
+    "accentColor": "#4c6976",
+    "secondaryColor": "#000000",
+    "canisterColor": "white",
+    "heroTitle": "CREATINA MONOHIDRATO: Fuerza y Potencia Celular Máxima en Cada Serie",
+    "heroSubtitle": "La fórmula más pura y comprobada de la nutrición deportiva. 5.000mg de creatina monohidrato micronizada para saturar depósitos celulares, disparar la resíntesis de ATP y elevar tus cargas de trabajo al fallo.",
+    "heroBullets": [
+      "5.000mg de Creatina Monohidrato 100% pura de máxima biodisponibilidad por toma",
+      "60 servicios reales garantizados en cada tarro de 360g",
+      "4 sabores tácticos irresistibles: Sin Sabor, Maracuyá, Uva y Frutos Rojos",
+      "Cero azúcares, cero grasas y libre de gluten para una digestión ultraligera"
+    ],
+    "ctaText": "Comprar Creatina Monohidrato DELTA",
+    "guaranteeDays": 30,
+    "guaranteeTitle": "Garantía de Rendimiento Explosivo de 30 Días",
+    "guaranteeDescription": "Si no notas un incremento real en tu fuerza, resistencia y congestión muscular en 30 días, te devolvemos el 100% de tu dinero.",
+    "stockStatus": "in_stock",
+    "published": true,
+    "bundles": [
+      {
+        "id": "creatina_unidad",
+        "name": "La Unidad (1 Tarro)",
+        "units": 1,
+        "price": 85000,
+        "originalPrice": 105000,
+        "savingsText": "Ahorras $20.000"
+      },
+      {
+        "id": "creatina_duo",
+        "name": "El Dúo Promo (2 Tarros)",
+        "units": 2,
+        "badge": "MÁS VENDIDO · AHORRA 26%",
+        "price": 155000,
+        "originalPrice": 210000,
+        "savingsText": "Ahorras $55.000",
+        "popular": true
+      },
+      {
+        "id": "creatina_x3",
+        "name": "Arsenal x3 (Bodegón)",
+        "units": 3,
+        "badge": "MAYOR AHORRO · ENVÍO GRATIS",
+        "price": 219000,
+        "originalPrice": 315000,
+        "savingsText": "Ahorras $96.000"
+      },
+      {
+        "id": "creatina_x4",
+        "name": "Pack Batallón x4",
+        "units": 4,
+        "badge": "PACK PROFESIONAL · ENVÍO GRATIS",
+        "price": 279000,
+        "originalPrice": 420000,
+        "savingsText": "Ahorras $141.000"
+      }
+    ],
+    "benefits": [
+      {
+        "id": "b_crea_1",
+        "icon": "zap",
+        "title": "Resíntesis Acelerada de ATP",
+        "description": "Incrementa la energía rápida celular para empujar repeticiones adicionales en series pesadas.",
+        "stat": "5000mg ATP"
+      },
+      {
+        "id": "b_crea_2",
+        "icon": "activity",
+        "title": "Voluminización Intracelular",
+        "description": "Estimula la hidratación de las fibras musculares promoviendo un ambiente anabólico continuo.",
+        "stat": "100% Celular"
+      },
+      {
+        "id": "b_crea_3",
+        "icon": "shield-check",
+        "title": "Molienda Micronizada 200 Mesh",
+        "description": "Disolución completa en agua o batidos sin textura arenosa ni sedimentos molestos.",
+        "stat": "Cero Grumos"
+      },
+      {
+        "id": "b_crea_4",
+        "icon": "award",
+        "title": "0% Azúcar y Rellenos",
+        "description": "Pureza molecular comprobada, libre de gluten y con registro sanitario certificado.",
+        "stat": "0% Azúcar"
+      }
+    ],
+    "salesArgumentsTitle": "¿Por qué elegir la Creatina Monohidrato DELTA?",
+    "salesArgumentsSubtitle": "A diferencia de marcas que reducen los servicios o agregan rellenos baratos, DELTA te entrega 360g de monohidrato puro con sabores exquisitos y disolución perfecta.",
+    "salesArgumentsBullets": [
+      "Pureza garantizada con 5g de monohidrato activo por scoop.",
+      "Opciones con sabor refrescante sin azúcar o sin sabor neutro para mezclar.",
+      "Digestión suave sin molestias estomacales ni retención de líquidos superficial.",
+      "Registro sanitario y respaldo oficial de TOP ONE™ Nutrition."
+    ],
+    "comparison": {
+      "title": "Creatina DELTA vs Creatinas Genéricas",
+      "subtitle": "Compara la calidad de disolución, servicios y pureza frente a marcas comerciales.",
+      "topOneLabel": "DELTA Creatina Monohidrato",
+      "competitorLabel": "Creatina Genérica Comercial",
+      "rows": [
+        {
+          "feature": "Solubilidad y Textura",
+          "topOne": "Micronizada ultrafina, cero grumos",
+          "competitor": "Arenosa y con residuos en el vaso",
+          "topOneHighlight": true
+        },
+        {
+          "feature": "Servicios Reales",
+          "topOne": "60 tomas completas (360g)",
+          "competitor": "30 a 45 tomas (150-200g)",
+          "topOneHighlight": true
+        },
+        {
+          "feature": "Variedad de Sabores",
+          "topOne": "4 sabores gourmet sin azúcar",
+          "competitor": "Solo sin sabor o con químicos amargos",
+          "topOneHighlight": true
+        },
+        {
+          "feature": "Absorción y Digestión",
+          "topOne": "Absorción celular inmediata",
+          "competitor": "Pesadez o cólicos leves",
+          "topOneHighlight": true
+        }
+      ]
+    },
+    "nutritionalFacts": {
+      "badgeTitle": "INFORMACIÓN NUTRICIONAL CERTIFICADA",
+      "sectionTitle": "Perfil Nutricional - CREATINA MONOHIDRATO",
+      "sectionSubtitle": "Análisis por servicio completo de 5g / 1 scoop.",
+      "servingSize": "1 Scoop (5g / 6g con sabor)",
+      "servingsPerContainer": 60,
+      "table": [
+        {
+          "ingredient": "Creatina Monohidrato Pura Micronizada",
+          "perServing": "5.000 mg",
+          "dailyValue": "**"
+        },
+        {
+          "ingredient": "Calorías",
+          "perServing": "0 kcal",
+          "dailyValue": "0%"
+        },
+        {
+          "ingredient": "Carbohidratos Totales",
+          "perServing": "0 g",
+          "dailyValue": "0%"
+        },
+        {
+          "ingredient": "Azúcares Añadidos",
+          "perServing": "0 g",
+          "dailyValue": "0%"
+        },
+        {
+          "ingredient": "Sodio",
+          "perServing": "0 mg",
+          "dailyValue": "0%"
+        }
+      ],
+      "certificates": [
+        "Registro Sanitario Oficial",
+        "Micronizada 200 Mesh",
+        "100% Gluten Free",
+        "Cero Azúcar Añadida"
+      ],
+      "usageInstructions": "Disolver 1 scoop (5g) en 250-300ml de agua o bebida favorita. Consumir a diario."
+    },
+    "reviews": [
+      {
+        "id": "rev_crea_1",
+        "author": "Carlos Andrés Montoya",
+        "verified": true,
+        "date": "Hace 3 días",
+        "rating": 5,
+        "title": "La de Maracuyá es espectacular y la fuerza es real",
+        "comment": "La creatina DELTA es otro nivel. Compré el sabor Maracuyá y la disolución es perfecta, cero grumos y sabor delicioso. Mis marcas en press de banca y sentadilla subieron 10kg en 3 semanas.",
+        "objective": "Fuerza y Rendimiento",
+        "helpfulCount": 42
+      },
+      {
+        "id": "rev_crea_2",
+        "author": "Sargento David R.",
+        "verified": true,
+        "date": "Hace 5 días",
+        "rating": 5,
+        "title": "Excelente el combo DÚO",
+        "comment": "Pedí el combo DÚO (uno Sin Sabor para mezclar con mi proteína y otro Uva para antes de entrenar). Cero hinchazón estomacal y una recuperación muscular brutal.",
+        "objective": "Recuperación Celular",
+        "helpfulCount": 35
+      }
+    ],
+    "faqBadge": "PREGUNTAS FRECUENTES",
+    "faqTitle": "Preguntas sobre Creatina Monohidrato",
+    "faqSubtitle": "Aclaramos tus dudas sobre uso, beneficios y combinaciones.",
+    "faqs": [
+      {
+        "question": "¿Es necesaria la fase de carga?",
+        "answer": "No es obligatoria. Tomando 1 scoop diario (5g) alcanzarás la saturación celular óptima en 2 a 3 semanas de forma continua y sin molestias digestivas."
+      },
+      {
+        "question": "¿Rinde 60 servicios reales?",
+        "answer": "Sí, cada tarro contiene 360g netos, entregando 60 servicios de 5g exactos para 2 meses completos de suplementación."
+      }
+    ],
+    "sectionsConfig": {
+      "hero": true,
+      "bundles": true,
+      "benefits": true,
+      "comparison": true,
+      "nutrition": true,
+      "reviews": true,
+      "faqs": true,
+      "guarantee": true
+    }
+  },
+  {
     "id": "prod_tank_01",
     "slug": "tank-stronger-mass-gainer",
     "name": "TANK Stronger Mass Gainer // Whey + Superfoods",

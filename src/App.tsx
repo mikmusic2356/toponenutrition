@@ -12,6 +12,7 @@ import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { ProductLandingPage } from './components/landing/ProductLandingPage';
 import { TankLandingPage } from './components/landing/TankLandingPage';
+import { CreatinaLandingPage } from './components/landing/CreatinaLandingPage';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { CheckoutDrawer } from './components/cart/CheckoutDrawer';
 import { ThankYouPage } from './components/cart/ThankYouPage';
@@ -88,6 +89,11 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Si el producto de creatina no está en el storage previo, incorporarlo
+          const hasCreatina = parsed.some((p: Product) => p.slug === 'creatina-monohidrato' || p.id === 'prod_creatina_01');
+          if (!hasCreatina && DEFAULT_PRODUCTS[0]?.id === 'prod_creatina_01') {
+            return [DEFAULT_PRODUCTS[0], ...parsed];
+          }
           return parsed;
         }
       }
@@ -104,6 +110,11 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Si el producto de creatina no está en el storage previo, incorporarlo
+          const hasCreatina = parsed.some((p: Product) => p.slug === 'creatina-monohidrato' || p.id === 'prod_creatina_01');
+          if (!hasCreatina && DEFAULT_PRODUCTS[0]?.id === 'prod_creatina_01') {
+            return [DEFAULT_PRODUCTS[0], ...parsed];
+          }
           return parsed;
         }
       }
@@ -722,12 +733,21 @@ export default function App() {
 
           {/* Standalone Product Sales Landing Page */}
           <div className="flex-1">
-            <TankLandingPage
-              product={activeProduct}
-              onAddToCart={handleAddToCart}
-              onBuyNow={handleBuyNow}
-              onAddReview={handleAddReview}
-            />
+            {activeProduct.slug === 'creatina-monohidrato' || activeProduct.id === 'prod_creatina_01' ? (
+              <CreatinaLandingPage
+                product={activeProduct}
+                onAddToCart={handleAddToCart}
+                onBuyNow={handleBuyNow}
+                onAddReview={handleAddReview}
+              />
+            ) : (
+              <TankLandingPage
+                product={activeProduct}
+                onAddToCart={handleAddToCart}
+                onBuyNow={handleBuyNow}
+                onAddReview={handleAddReview}
+              />
+            )}
           </div>
 
           {/* Global Footer */}
