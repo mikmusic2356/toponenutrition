@@ -194,10 +194,24 @@ export default function App() {
         ]);
         if (isMounted) {
           if (dbProducts && dbProducts.length > 0) {
-            setProducts(dbProducts);
+            // Garantizar que la creatina esté presente en los productos aunque Turso tenga lista vieja
+            const hasCreatina = dbProducts.some((p) => p.slug === 'creatina-monohidrato' || p.id === 'prod_creatina_01');
+            const mergedProducts = hasCreatina ? dbProducts : [DEFAULT_PRODUCTS[0], ...dbProducts];
+            
+            // Si la creatina no estaba en Turso, guardarla en segundo plano
+            if (!hasCreatina && DEFAULT_PRODUCTS[0]) {
+              dbService.saveProduct(DEFAULT_PRODUCTS[0]).catch(console.error);
+            }
+
+            setProducts(mergedProducts);
             setActiveProduct((prev) => {
-              const matched = dbProducts.find((p) => p.id === prev.id || p.slug === prev.slug);
-              return matched || dbProducts[0];
+              // Si la URL actual tiene un producto específico, respetarlo prioritariamente
+              const urlProduct = getProductFromUrl(mergedProducts);
+              if (urlProduct && (urlProduct.slug === 'creatina-monohidrato' || urlProduct.slug === prev.slug)) {
+                return urlProduct;
+              }
+              const matched = mergedProducts.find((p) => p.id === prev.id || p.slug === prev.slug);
+              return matched || urlProduct || mergedProducts[0];
             });
           }
           if (Array.isArray(dbOrders)) {
