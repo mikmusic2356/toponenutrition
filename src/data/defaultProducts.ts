@@ -22,12 +22,12 @@ export const DEFAULT_PRODUCTS: Product[] = [
       "360g (60 Servicios)"
     ],
     "imageType": "custom",
-    "customImageUrl": "/images/landing/creatina-unidad-sin-sabor.jpeg",
+    "customImageUrl": "/images/landing/creatina-unidad-sin-sabor.png",
     "gallery": [
-      "/images/landing/creatina-unidad-sin-sabor.jpeg",
-      "/images/landing/creatina-unidad-maracuya.jpeg",
-      "/images/landing/creatina-unidad-uva.jpeg",
-      "/images/landing/creatina-unidad-frutos-rojos.jpeg"
+      "/images/landing/creatina-unidad-sin-sabor.png",
+      "/images/landing/creatina-unidad-maracuya.png",
+      "/images/landing/creatina-unidad-uva.png",
+      "/images/landing/creatina-unidad-frutos-rojos.png"
     ],
     "accentColor": "#4c6976",
     "secondaryColor": "#000000",

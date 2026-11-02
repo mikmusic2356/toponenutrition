@@ -39,7 +39,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       name: 'Sin Sabor', 
       icon: '⚡', 
       desc: '100% pura, versátil y perfecta para combinar con cualquier batido o agua',
-      image: '/images/landing/creatina-unidad-sin-sabor.jpeg',
+      image: '/images/landing/creatina-unidad-sin-sabor.png',
       badgeImage: '/images/landing/sin sabor.jpg',
       badgeColor: '#4c6976'
     },
@@ -47,7 +47,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       name: 'Maracuyá', 
       icon: '🥭', 
       desc: 'Sabor tropical cítrico, ultra refrescante en agua bien fría',
-      image: '/images/landing/creatina-unidad-maracuya.jpeg',
+      image: '/images/landing/creatina-unidad-maracuya.png',
       badgeImage: '/images/landing/sabor a maracuya.jpg',
       badgeColor: '#eab308'
     },
@@ -55,7 +55,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       name: 'Uva', 
       icon: '🍇', 
       desc: 'Delicioso e intenso toque dulce frutal con disolución instantánea',
-      image: '/images/landing/creatina-unidad-uva.jpeg',
+      image: '/images/landing/creatina-unidad-uva.png',
       badgeImage: '/images/landing/sabor uva.jpg',
       badgeColor: '#9333ea'
     },
@@ -63,7 +63,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       name: 'Frutos Rojos', 
       icon: '🍓', 
       desc: 'Explosión de frutos silvestres para recargar tu energía con sabor premium',
-      image: '/images/landing/creatina-unidad-frutos-rojos.jpeg',
+      image: '/images/landing/creatina-unidad-frutos-rojos.png',
       badgeImage: '/images/landing/Translate_text_to_Spanish_8dd6df73.jpg',
       badgeColor: '#e11d48'
     },
@@ -71,24 +71,24 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
   const [selectedFlavor, setSelectedFlavor] = useState<string>('Sin Sabor');
 
-  // Mapeo dinámico de imágenes según el Sabor seleccionado para el envase individual
+  // Mapeo dinámico de imágenes transparentes según el Sabor seleccionado para el envase individual
   const getFlavorImage = (flavorName: string) => {
     switch (flavorName) {
       case 'Maracuyá':
-        return '/images/landing/creatina-unidad-maracuya.jpeg';
+        return '/images/landing/creatina-unidad-maracuya.png';
       case 'Uva':
-        return '/images/landing/creatina-unidad-uva.jpeg';
+        return '/images/landing/creatina-unidad-uva.png';
       case 'Frutos Rojos':
-        return '/images/landing/creatina-unidad-frutos-rojos.jpeg';
+        return '/images/landing/creatina-unidad-frutos-rojos.png';
       case 'Sin Sabor':
       default:
-        return '/images/landing/creatina-unidad-sin-sabor.jpeg';
+        return '/images/landing/creatina-unidad-sin-sabor.png';
     }
   };
 
   const currentFlavorImage = getFlavorImage(selectedFlavor);
 
-  // Combos solicitados: La Unidad, El Dúo, x3 y x4
+  // Combos solicitados: La Unidad, El Dúo, x3 y x4 (con fondos transparentes PNG)
   const plans = [
     {
       id: 'creatina_unidad',
@@ -120,7 +120,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: true,
       savingsBadge: 'Ahorras $55.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-duo.jpeg',
+      staticImage: '/images/landing/creatina-combo-duo.png',
     },
     {
       id: 'creatina_x3',
@@ -136,7 +136,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: false,
       savingsBadge: 'Ahorras $96.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-x3.jpeg',
+      staticImage: '/images/landing/creatina-combo-x3.png',
     },
     {
       id: 'creatina_x4',
@@ -152,7 +152,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: false,
       savingsBadge: 'Ahorras $141.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-x4.jpeg',
+      staticImage: '/images/landing/creatina-combo-x4.png',
     }
   ];
 
