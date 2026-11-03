@@ -301,7 +301,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
               </div>
 
               {/* Título Principal con la regla de colores: CREATINA en #4c6976, MONOHIDRATO en negro */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight">
+              <h1 className="h1-title font-gunplay text-3xl sm:text-5xl lg:text-6xl uppercase tracking-wider leading-[1.08]">
                 <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span> <br />
                 <span className="text-black">DELTA // 100% PURA</span>
               </h1>
@@ -411,7 +411,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
               <div className="flex flex-wrap items-center gap-4 pt-3">
                 <button
                   onClick={scrollToPlans}
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-black hover:bg-[#4c6976] active:bg-[#4c6976] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-black/20 hover:shadow-[#4c6976]/30 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-black hover:bg-[#4c6976] active:bg-[#4c6976] text-white font-gunplay text-base uppercase tracking-wider shadow-lg shadow-black/20 hover:shadow-[#4c6976]/30 transition-all duration-200 cursor-pointer group"
                 >
                   <span>Ver combos y precios</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -478,7 +478,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             <div className="inline-block px-3.5 py-1.5 rounded-full bg-[#4c6976]/10 border border-[#4c6976]/25 text-[#4c6976] text-xs font-black tracking-widest uppercase mb-3">
               VARIEDAD Y FRESCURA TÁCTICA
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight">
               ELIGE TU SABOR FAVORITO DE <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span>
             </h2>
             <div className="w-16 h-1 bg-[#4c6976] mx-auto mt-4 rounded-full" />
@@ -541,7 +541,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             SEÑALES DE FATIGA Y ESTANCAMIENTO
           </div>
           
-          <h2 className="text-2xl sm:text-4xl font-black leading-tight mb-4">
+          <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight mb-4">
             ¿TE IDENTIFICAS CON ALGUNO DE ESTOS <br />
             <span className="text-[#4c6976]">PUNTOS DE COMBATE EN EL GYM?</span>
           </h2>
@@ -590,7 +590,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             <div className="inline-block px-3.5 py-1.5 rounded-full bg-[#4c6976]/10 border border-[#4c6976]/25 text-[#4c6976] text-xs font-black tracking-widest uppercase mb-3">
               TABLA NUTRICIONAL OFICIAL
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight">
               PERFIL Y PUREZA DE LA <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span>
             </h2>
             <div className="w-16 h-1 bg-[#4c6976] mx-auto mt-4 rounded-full" />
@@ -611,7 +611,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
             {/* Desglose de Atributos */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              <h3 className="text-2xl sm:text-3xl font-black text-black leading-tight">
+              <h3 className="font-gunplay text-2xl sm:text-3xl uppercase tracking-wide text-black leading-tight">
                 Calidad de grado farmacéutico sin compromisos
               </h3>
 
@@ -677,7 +677,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             <div className="inline-block px-3.5 py-1.5 rounded-full bg-[#4c6976]/10 border border-[#4c6976]/25 text-[#4c6976] text-xs font-black tracking-widest uppercase mb-3">
               TABLA COMPARATIVA
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight">
               ¿QUÉ HACE SUPERIOR A LA <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span> DELTA?
             </h2>
             <div className="w-16 h-1 bg-[#4c6976] mx-auto mt-4 rounded-full" />
@@ -745,7 +745,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             <div className="inline-block px-3.5 py-1.5 rounded-full bg-[#4c6976]/10 border border-[#4c6976]/25 text-[#4c6976] text-xs font-black tracking-widest uppercase mb-3">
               OPINIONES DE ATLETAS
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight">
               EXPERIENCIAS REALES CON <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span>
             </h2>
             <div className="w-16 h-1 bg-[#4c6976] mx-auto mt-4 rounded-full" />
@@ -863,7 +863,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
               COMBOS DISPONIBLES EN BODEGA
             </div>
             
-            <h2 className="text-3xl sm:text-5xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-3xl sm:text-5xl uppercase tracking-wide leading-tight">
               ELIGE TU COMBO DE <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span>
             </h2>
             
@@ -944,7 +944,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
                   {/* Datos del Plan */}
                   <div className="text-center space-y-2 my-2">
-                    <h3 className="text-lg font-black text-black leading-tight">{plan.name}</h3>
+                    <h3 className="font-gunplay text-xl uppercase tracking-wide text-black leading-tight">{plan.name}</h3>
                     <div className="text-xs font-bold text-[#4c6976]">{plan.subname}</div>
                     
                     <div className="pt-2">
@@ -1002,7 +1002,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             <div className="inline-block px-3.5 py-1.5 rounded-full bg-[#4c6976]/10 border border-[#4c6976]/25 text-[#4c6976] text-xs font-black tracking-widest uppercase mb-3">
               PREGUNTAS FRECUENTES
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black leading-tight">
+            <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight">
               TODO LO QUE DEBES SABER SOBRE LA <br />
               <span className="text-[#4c6976]">CREATINA</span> <span className="text-black">MONOHIDRATO</span>
             </h2>
@@ -1054,7 +1054,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
             COMPRA Y PAGO SEGURO
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-black leading-tight mb-4">
+          <h2 className="h2-title font-gunplay text-2xl sm:text-4xl uppercase tracking-wide leading-tight mb-4">
             MEDIOS DE PAGO <span className="text-[#4c6976]">CERTIFICADOS EN COLOMBIA</span>
           </h2>
 
