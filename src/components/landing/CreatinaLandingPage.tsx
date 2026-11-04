@@ -40,7 +40,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '⚡', 
       desc: '100% pura, versátil y perfecta para combinar con cualquier batido o agua',
       image: '/images/landing/creatina-unidad-sin-sabor.png',
-      badgeImage: '/images/landing/sin sabor.jpg',
+      badgeImage: '/images/landing/sabor-sin-sabor-transparent.png',
       badgeColor: '#4c6976'
     },
     { 
@@ -48,7 +48,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🥭', 
       desc: 'Sabor tropical cítrico, ultra refrescante en agua bien fría',
       image: '/images/landing/creatina-unidad-maracuya.png',
-      badgeImage: '/images/landing/sabor a maracuya.jpg',
+      badgeImage: '/images/landing/sabor-maracuya-transparent.png',
       badgeColor: '#eab308'
     },
     { 
@@ -56,7 +56,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🍇', 
       desc: 'Delicioso e intenso toque dulce frutal con disolución instantánea',
       image: '/images/landing/creatina-unidad-uva.png',
-      badgeImage: '/images/landing/sabor uva.jpg',
+      badgeImage: '/images/landing/sabor-uva-transparent.png',
       badgeColor: '#9333ea'
     },
     { 
@@ -64,7 +64,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       icon: '🍓', 
       desc: 'Explosión de frutos silvestres para recargar tu energía con sabor premium',
       image: '/images/landing/creatina-unidad-frutos-rojos.png',
-      badgeImage: '/images/landing/Translate_text_to_Spanish_8dd6df73.jpg',
+      badgeImage: '/images/landing/sabor-frutos-rojos-transparent.png',
       badgeColor: '#e11d48'
     },
   ];
@@ -120,7 +120,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: true,
       savingsBadge: 'Ahorras $55.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-duo.png',
+      staticImage: '/images/landing/DUO Creatina DELTA PROMO.jpeg',
     },
     {
       id: 'creatina_x3',
@@ -136,7 +136,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: false,
       savingsBadge: 'Ahorras $96.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-x3.png',
+      staticImage: '/images/landing/Bodegon DELTA x 3 UND SIN SABOR.jpeg',
     },
     {
       id: 'creatina_x4',
@@ -152,7 +152,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
       isBestOption: false,
       savingsBadge: 'Ahorras $141.000',
       isDynamicFlavorImage: false,
-      staticImage: '/images/landing/creatina-combo-x4.png',
+      staticImage: '/images/landing/Bodegon DELTA x 4 UND CON SABOR.jpeg',
     }
   ];
 
@@ -379,11 +379,11 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
                         }`}
                       >
                         {/* Contenedor de la Imagen del Sabor */}
-                        <div className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 relative">
+                        <div className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-100/60 border border-slate-200/60 flex items-center justify-center p-2 relative">
                           <img
                             src={flv.badgeImage}
                             alt={`Sabor ${flv.name}`}
-                            className="w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-sm"
                           />
                           {isSelected && (
                             <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#4c6976] text-white flex items-center justify-center text-[10px] font-black shadow-md">
