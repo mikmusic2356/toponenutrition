@@ -3,9 +3,10 @@ import { CartItem, CustomerOrder } from '../../types/product';
 import { SupplementVisual } from '../common/SupplementVisual';
 import {
   X, Trash2, Plus, Minus, ShieldCheck, Truck, Check, Smartphone,
-  CreditCard, Package, ArrowRight, MessageCircle, FileText
+  CreditCard, Package, ArrowRight, MessageCircle, FileText, Mail
 } from 'lucide-react';
 import { formatCOP } from '../../lib/currency';
+import { openEpaycoCheckout } from '../../services/epaycoService';
 
 interface CheckoutDrawerProps {
   isOpen: boolean;
@@ -31,23 +32,25 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
 
   // Customer form fields
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [notes, setNotes] = useState('');
+  const [isProcessingEpayco, setIsProcessingEpayco] = useState(false);
 
   if (!isOpen) return null;
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.bundle.price * item.quantity, 0);
-  const freeShippingThreshold = 39.0;
-  const shippingCost = subtotal >= freeShippingThreshold || subtotal === 0 ? 0 : 4.90;
+  const freeShippingThreshold = 0; // Envíos gratis a toda Colombia en combos TopOne
+  const shippingCost = 0;
   const total = subtotal + shippingCost;
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !address.trim() || !city.trim() || !postalCode.trim()) {
-      alert('Por favor completa todos los campos requeridos para la entrega.');
+    if (!name.trim() || !phone.trim() || !address.trim() || !city.trim()) {
+      alert('Por favor completa tu nombre, teléfono, dirección y ciudad para el despacho.');
       return;
     }
 
@@ -62,7 +65,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
         phone: phone.trim(),
         address: address.trim(),
         city: city.trim(),
-        postalCode: postalCode.trim(),
+        postalCode: postalCode.trim() || 'N/A',
         notes: notes.trim() || undefined,
       },
       items: [...cartItems],
@@ -71,6 +74,37 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
       total,
       paymentMethod,
     };
+
+    // If ePayco payment selected:
+    if (paymentMethod === 'epayco') {
+      setIsProcessingEpayco(true);
+      const productSummary = cartItems
+        .map((i) => `${i.product.name} (${i.bundle.name} - ${i.selectedFlavor}) x${i.quantity}`)
+        .join(', ');
+
+      const firstProductName = cartItems[0]?.product.name || 'Suplementos TopOne Nutrition';
+
+      const opened = await openEpaycoCheckout({
+        orderId,
+        name: firstProductName,
+        description: productSummary,
+        amount: total,
+        customerName: name.trim(),
+        customerEmail: email.trim() || `${phone.trim()}@toponenutrition.com`,
+        customerPhone: phone.trim(),
+        customerAddress: address.trim(),
+        customerCity: city.trim(),
+        currency: 'cop',
+      });
+
+      setIsProcessingEpayco(false);
+
+      if (opened) {
+        // Register the order in database / state
+        onCompleteOrder(newOrder);
+      }
+      return;
+    }
 
     // If WhatsApp payment selected, open WhatsApp directly with formatted invoice
     if (paymentMethod === 'whatsapp') {
@@ -83,7 +117,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
         )
         .join('%0A');
 
-      const message = `¡Hola TopOneNutrition! Deseo confirmar mi pedido:%0A%0A*Pedido:* ${orderId}%0A*Cliente:* ${name}%0A*Tel:* ${phone}%0A*Dirección:* ${address}, ${postalCode} ${city}%0A${
+      const message = `¡Hola TopOneNutrition! Deseo confirmar mi pedido:%0A%0A*Pedido:* ${orderId}%0A*Cliente:* ${name}%0A*Tel:* ${phone}%0A*Dirección:* ${address}, ${postalCode ? `${postalCode} ` : ''}${city}%0A${
         notes ? `*Notas de entrega:* ${notes}%0A` : ''
       }%0A*Productos:*%0A${summaryText}%0A%0A*Total:* ${formatCOP(total)}`;
 
@@ -275,18 +309,32 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Teléfono Móvil (Avisos de reparto) *
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Ej. 612 345 678"
-                  className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Teléfono Móvil (Avisos de reparto) *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Ej. 312 345 6789"
+                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Correo Electrónico (Para tu factura ePayco)
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tucorreo@ejemplo.com"
+                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
+                  />
+                </div>
               </div>
 
               <div>
@@ -298,7 +346,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Calle, número, piso y puerta"
+                  placeholder="Calle, número, conjunto, apto o casa"
                   className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
                 />
               </div>
@@ -306,27 +354,26 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Ciudad *
+                    Ciudad / Municipio *
                   </label>
                   <input
                     type="text"
                     required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Ej. Madrid"
+                    placeholder="Ej. Bogotá, Medellín, Cali..."
                     className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Código Postal *
+                    Departamento / Código Postal (Opcional)
                   </label>
                   <input
                     type="text"
-                    required
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
-                    placeholder="28001"
+                    placeholder="Ej. Cundinamarca"
                     className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
                   />
                 </div>
@@ -458,10 +505,22 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                 <button
                   type="submit"
                   form="checkout-form"
-                  className="btn-buy-animated flex-1 py-3.5 rounded-lg bg-[#7cb20b] hover:bg-[#6fa00a] text-slate-950 font-black text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isProcessingEpayco}
+                  className="btn-buy-animated flex-1 py-3.5 rounded-lg bg-[#7cb20b] hover:bg-[#6fa00a] text-slate-950 font-black text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-wait"
                 >
-                  <span>Confirmar Pedido Seguro</span>
-                  <span className="font-mono tabular-nums">({formatCOP(total)})</span>
+                  {isProcessingEpayco ? (
+                    <span>Abriendo ePayco...</span>
+                  ) : paymentMethod === 'epayco' ? (
+                    <>
+                      <span>Pagar con ePayco</span>
+                      <span className="font-mono tabular-nums">({formatCOP(total)})</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirmar Pedido</span>
+                      <span className="font-mono tabular-nums">({formatCOP(total)})</span>
+                    </>
+                  )}
                 </button>
               </div>
             )}

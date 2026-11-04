@@ -18,6 +18,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({ order, onBackToStore
   };
 
   const paymentLabels: Record<string, string> = {
+    epayco: 'ePayco (Tarjetas, PSE, Nequi, Bancolombia)',
     card: 'Tarjeta de Crédito / Débito',
     bizum: 'Nequi / Bancolombia / Transferencia',
     cod: 'Pago Contraentrega (al recibir)',

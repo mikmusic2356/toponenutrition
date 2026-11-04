@@ -278,6 +278,30 @@ export default function App() {
         return;
       }
 
+      // Check ePayco callback response
+      const refPayco = search.get('ref_payco');
+      if (refPayco) {
+        // Look up if we have an order matching or pending
+        fetch(`https://secure.epayco.co/validation/v1/reference/${refPayco}`)
+          .then((res) => res.json())
+          .then((resData) => {
+            if (resData && resData.success && resData.data) {
+              const tx = resData.data;
+              const invoiceId = tx.x_extra1 || tx.x_id_invoice;
+              // If status is 1 (Aceptada), update local order if found
+              if (String(tx.x_cod_response) === '1' && invoiceId) {
+                setOrders((prev) =>
+                  prev.map((o) => (o.id === invoiceId ? { ...o, status: 'en_preparacion' } : o))
+                );
+                dbService.updateOrderStatus(invoiceId, 'en_preparacion').catch(console.error);
+              }
+            }
+          })
+          .catch(() => {
+            // Silently ignore if CORS or external network is restricted
+          });
+      }
+
       // Check blog URL
       const blogParam = search.get('blog') || search.get('articulo');
       if (blogParam) {
