@@ -16,6 +16,8 @@ import { CreatinaLandingPage } from './components/landing/CreatinaLandingPage';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { CheckoutDrawer } from './components/cart/CheckoutDrawer';
 import { ThankYouPage } from './components/cart/ThankYouPage';
+import { PaymentRejectedPage } from './components/cart/PaymentRejectedPage';
+import { PaymentPendingPage } from './components/cart/PaymentPendingPage';
 import { BlogPostView } from './components/blog/BlogPostView';
 import { BlogIndexPage } from './components/blog/BlogIndexPage';
 import { dbService } from './services/dbService';
@@ -179,6 +181,16 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<CustomerOrder | null>(null);
 
+  // ePayco status views: 'idle' | 'rejected' | 'pending' | 'success'
+  const [paymentStatusView, setPaymentStatusView] = useState<'idle' | 'rejected' | 'pending' | 'success'>('idle');
+  const [paymentStatusDetails, setPaymentStatusDetails] = useState<{
+    refPayco?: string;
+    amount?: number;
+    currency?: string;
+    description?: string;
+    errorMessage?: string;
+  }>({});
+
   // Toast feedback
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -278,27 +290,87 @@ export default function App() {
         return;
       }
 
-      // Check ePayco callback response
+      // Check ePayco callback response or manual state test (?payment=rejected, ?payment=pending, ?payment=success)
+      const paymentTestState = search.get('payment') || search.get('estado');
+      const orderIdParam = search.get('order_id');
+
+      if (paymentTestState === 'rejected' || paymentTestState === 'rechazado' || paymentTestState === 'cancelado') {
+        const foundOrder = orders.find((o) => o.id === orderIdParam) || completedOrder;
+        setPaymentStatusView('rejected');
+        setPaymentStatusDetails({
+          refPayco: orderIdParam || 'TOP1-PAGO',
+          amount: foundOrder?.total || 85000,
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (paymentTestState === 'pending' || paymentTestState === 'pendiente') {
+        const foundOrder = orders.find((o) => o.id === orderIdParam) || completedOrder;
+        setPaymentStatusView('pending');
+        setPaymentStatusDetails({
+          refPayco: orderIdParam || 'TOP1-PAGO',
+          amount: foundOrder?.total || 85000,
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (paymentTestState === 'success' || paymentTestState === 'aprobado' || paymentTestState === 'exitoso') {
+        const foundOrder = orders.find((o) => o.id === orderIdParam) || completedOrder;
+        if (foundOrder) {
+          setCompletedOrder(foundOrder);
+        }
+        setPaymentStatusView('idle');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
       const refPayco = search.get('ref_payco');
       if (refPayco) {
-        // Look up if we have an order matching or pending
+        // Query ePayco API to check real transaction status
         fetch(`https://secure.epayco.co/validation/v1/reference/${refPayco}`)
           .then((res) => res.json())
           .then((resData) => {
             if (resData && resData.success && resData.data) {
               const tx = resData.data;
               const invoiceId = tx.x_extra1 || tx.x_id_invoice;
-              // If status is 1 (Aceptada), update local order if found
-              if (String(tx.x_cod_response) === '1' && invoiceId) {
-                setOrders((prev) =>
-                  prev.map((o) => (o.id === invoiceId ? { ...o, status: 'en_preparacion' } : o))
-                );
-                dbService.updateOrderStatus(invoiceId, 'en_preparacion').catch(console.error);
+              const responseCode = String(tx.x_cod_response);
+              const txAmount = Number(tx.x_amount) || 0;
+              const foundOrder = orders.find((o) => o.id === invoiceId) || completedOrder;
+
+              setPaymentStatusDetails({
+                refPayco: tx.x_ref_payco || refPayco,
+                amount: txAmount || foundOrder?.total,
+                currency: tx.x_currency_code || 'COP',
+                description: tx.x_description,
+              });
+
+              // 1: Aceptada / Aprobada
+              if (responseCode === '1') {
+                if (invoiceId) {
+                  setOrders((prev) =>
+                    prev.map((o) => (o.id === invoiceId ? { ...o, status: 'en_preparacion' } : o))
+                  );
+                  dbService.updateOrderStatus(invoiceId, 'en_preparacion').catch(console.error);
+                }
+                if (foundOrder) {
+                  setCompletedOrder(foundOrder);
+                }
+                setPaymentStatusView('idle');
+              } 
+              // 2: Rechazada | 4: Fallida
+              else if (responseCode === '2' || responseCode === '4') {
+                setPaymentStatusView('rejected');
+              } 
+              // 3: Pendiente
+              else if (responseCode === '3') {
+                setPaymentStatusView('pending');
               }
             }
           })
-          .catch(() => {
-            // Silently ignore if CORS or external network is restricted
+          .catch((err) => {
+            console.warn('Error al consultar estado ePayco:', err);
           });
       }
 
@@ -655,6 +727,68 @@ export default function App() {
           onResetDefaults={handleResetDefaults}
           onCloseAdmin={() => setIsAdminView(false)}
         />
+      ) : paymentStatusView === 'rejected' ? (
+        /* DEDICATED REJECTED PAYMENT PAGE */
+        <div>
+          <Header
+            currentProduct={activeProduct}
+            allProducts={products}
+            onSelectProduct={handleSelectProduct}
+            onOpenCart={() => setIsCartOpen(true)}
+            cartCount={totalCartUnits}
+            onOpenAdmin={() => setIsAdminView(true)}
+            isAdminView={false}
+            onOpenBlog={handleOpenBlogIndex}
+            isBlogView={false}
+          />
+          <PaymentRejectedPage
+            order={completedOrder}
+            transactionData={paymentStatusDetails}
+            onRetry={() => {
+              setPaymentStatusView('idle');
+              setIsCartOpen(true);
+            }}
+            onBackToStore={() => {
+              setPaymentStatusView('idle');
+              setCurrentView('product');
+            }}
+          />
+          <Footer
+            products={products}
+            onSelectProduct={handleSelectProduct}
+            onOpenAdmin={() => setIsAdminView(true)}
+            onOpenBlog={handleOpenBlogIndex}
+          />
+        </div>
+      ) : paymentStatusView === 'pending' ? (
+        /* DEDICATED PENDING PAYMENT PAGE */
+        <div>
+          <Header
+            currentProduct={activeProduct}
+            allProducts={products}
+            onSelectProduct={handleSelectProduct}
+            onOpenCart={() => setIsCartOpen(true)}
+            cartCount={totalCartUnits}
+            onOpenAdmin={() => setIsAdminView(true)}
+            isAdminView={false}
+            onOpenBlog={handleOpenBlogIndex}
+            isBlogView={false}
+          />
+          <PaymentPendingPage
+            order={completedOrder}
+            transactionData={paymentStatusDetails}
+            onBackToStore={() => {
+              setPaymentStatusView('idle');
+              setCurrentView('product');
+            }}
+          />
+          <Footer
+            products={products}
+            onSelectProduct={handleSelectProduct}
+            onOpenAdmin={() => setIsAdminView(true)}
+            onOpenBlog={handleOpenBlogIndex}
+          />
+        </div>
       ) : completedOrder ? (
         /* DEDICATED THANK YOU PAGE AFTER CHECKOUT */
         <div>

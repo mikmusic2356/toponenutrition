@@ -14,6 +14,7 @@ export interface EpaycoPaymentData {
   customerAddress: string;
   customerCity?: string;
   currency?: string;
+  onClose?: () => void;
 }
 
 declare global {
@@ -22,6 +23,7 @@ declare global {
       checkout: {
         configure: (config: { key: string; test: boolean }) => {
           open: (data: Record<string, unknown>) => void;
+          onCloseModal?: () => void;
         };
       };
     };
@@ -79,8 +81,12 @@ export async function openEpaycoCheckout(data: EpaycoPaymentData): Promise<boole
       test: EPAYCO_CONFIG.TEST_MODE,
     });
 
+    if (data.onClose) {
+      handler.onCloseModal = data.onClose;
+    }
+
     const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
-    const responseUrl = `${currentOrigin}/?epayco_response=true`;
+    const responseUrl = `${currentOrigin}/?epayco_response=true&order_id=${encodeURIComponent(data.orderId)}`;
     const confirmationUrl = `${currentOrigin}/api/epayco/confirmation`;
 
     const cleanAmount = Math.round(data.amount);

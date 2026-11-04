@@ -95,12 +95,16 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
         customerAddress: address.trim(),
         customerCity: city.trim(),
         currency: 'cop',
+        onClose: () => {
+          // Si el usuario cierra el modal o cancela antes de pagar
+          console.log('ePayco modal cerrado');
+        },
       });
 
       setIsProcessingEpayco(false);
 
       if (opened) {
-        // Register the order in database / state
+        // Guardamos el pedido en estado pendiente/en preparacion
         onCompleteOrder(newOrder);
       }
       return;
