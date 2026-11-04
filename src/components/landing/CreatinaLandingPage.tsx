@@ -247,6 +247,70 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
     }
   ];
 
+  // Lista ordenada de imágenes para la experiencia visual móvil
+  const mobileLandingImages = [
+    {
+      id: 'aumenta-tu-fuerza',
+      src: '/images/landing/mobile-creatina/aumenta-tu-fuerza-y-rendimiento.webp',
+      fallback: '/images/landing/mobile-creatina/aumenta tu fuerza y rendimiento.jpg',
+      alt: 'Aumenta tu fuerza y rendimiento - Creatina Monohidrato DELTA',
+    },
+    {
+      id: 'que-es-la-creatina',
+      src: '/images/landing/mobile-creatina/que-es-la-creatina.webp',
+      fallback: '/images/landing/mobile-creatina/que es la creatina.jpg',
+      alt: '¿Qué es la Creatina Monohidrato DELTA?',
+    },
+    {
+      id: 'beneficios',
+      src: '/images/landing/mobile-creatina/beneficios.webp',
+      fallback: '/images/landing/mobile-creatina/beneficios.jpg',
+      alt: 'Beneficios comprobados de la Creatina DELTA',
+    },
+    {
+      id: 'como-funciona',
+      src: '/images/landing/mobile-creatina/como-funciona.webp',
+      fallback: '/images/landing/mobile-creatina/como funciona.jpg',
+      alt: '¿Cómo funciona en tus células musculares?',
+    },
+    {
+      id: 'te-identificas',
+      src: '/images/landing/mobile-creatina/te-identificas-con-esto.webp',
+      fallback: '/images/landing/mobile-creatina/te identificas con esto.jpg',
+      alt: '¿Te identificas con esto? Señales de estancamiento',
+    },
+    {
+      id: 'comparacion',
+      src: '/images/landing/mobile-creatina/comparacion.webp',
+      fallback: '/images/landing/mobile-creatina/comparacion.jpg',
+      alt: 'Comparación Creatina DELTA vs Genérica',
+    },
+    {
+      id: 'opiniones',
+      src: '/images/landing/mobile-creatina/opiniones-de-clientes.webp',
+      fallback: '/images/landing/mobile-creatina/opiniones de clientes.jpg',
+      alt: 'Opiniones y testimonios de atletas verificados',
+    },
+    {
+      id: 'promocion',
+      src: '/images/landing/mobile-creatina/promocion.webp',
+      fallback: '/images/landing/mobile-creatina/promocion.jpg',
+      alt: 'Promoción y descuentos especiales',
+    },
+    {
+      id: 'preguntas-frecuentes',
+      src: '/images/landing/mobile-creatina/preguntas-frecuentes.webp',
+      fallback: '/images/landing/mobile-creatina/preguntas frecuentes.jpg',
+      alt: 'Preguntas frecuentes sobre la Creatina',
+    },
+    {
+      id: 'empieza-hoy',
+      src: '/images/landing/mobile-creatina/empieza-hoy.webp',
+      fallback: '/images/landing/mobile-creatina/empieza hoy.jpg',
+      alt: 'Empieza hoy con Creatina Monohidrato DELTA',
+    },
+  ];
+
   const scrollToPlans = () => {
     const el = document.getElementById('seccion-combos-creatina');
     if (el) {
@@ -275,6 +339,220 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
   return (
     <div className="bg-[#f8fafc] text-slate-800 font-sans selection:bg-[#4c6976] selection:text-white min-h-screen">
+
+      {/* ======================================================== */}
+      {/* VISTA MÓVIL: SECUENCIA DE IMÁGENES + SABORES + COMBOS    */}
+      {/* ======================================================== */}
+      <div className="block md:hidden w-full bg-slate-900 text-slate-800">
+
+        {/* 1. Imagen Hero / Aumenta tu fuerza */}
+        <div className="w-full relative">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/aumenta-tu-fuerza-y-rendimiento.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/aumenta tu fuerza y rendimiento.jpg"
+              alt="Aumenta tu fuerza y rendimiento - Creatina Monohidrato DELTA"
+              className="w-full h-auto block select-none"
+              loading="eager"
+            />
+          </picture>
+        </div>
+
+        {/* MÓDULO INTERACTIVO DE SABOR EN MÓVIL (Con tarro dinámico) */}
+        <div className="w-full bg-gradient-to-b from-white via-slate-50 to-slate-100 p-4 border-y border-slate-200">
+          <div className="text-center mb-3">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#4c6976] bg-[#4c6976]/10 px-3 py-1 rounded-full border border-[#4c6976]/20 inline-block mb-1">
+              SELECCIONA TU SABOR
+            </span>
+            <div className="text-xs font-black uppercase text-slate-700">
+              Sabor activo: <span className="text-[#4c6976] font-extrabold">{selectedFlavor}</span>
+            </div>
+          </div>
+
+          {/* Tarro dinámico según sabor */}
+          <div className="w-full flex items-center justify-center my-2 h-56 bg-white rounded-2xl border border-slate-200/80 p-3 shadow-inner relative overflow-hidden">
+            <div className="absolute top-2 right-2 px-2.5 py-0.5 rounded-full bg-[#4c6976]/10 text-[#4c6976] text-[10px] font-black uppercase tracking-wider">
+              {selectedFlavor}
+            </div>
+            <img
+              src={currentFlavorImage}
+              alt={`Creatina DELTA ${selectedFlavor}`}
+              key={`mobile-${selectedFlavor}`}
+              className="max-h-full max-w-full object-contain drop-shadow-md transition-all duration-300"
+            />
+          </div>
+
+          {/* Selector de sabores táctil con imágenes */}
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            {flavors.map((flv) => {
+              const isSelected = selectedFlavor === flv.name;
+              return (
+                <button
+                  key={flv.name}
+                  onClick={() => setSelectedFlavor(flv.name)}
+                  className={`p-2 rounded-xl border flex flex-col items-center gap-1.5 transition-all text-center cursor-pointer ${
+                    isSelected
+                      ? 'border-[#4c6976] bg-white ring-2 ring-[#4c6976]/40 shadow-md'
+                      : 'border-slate-200 bg-white/80 hover:bg-white text-slate-700'
+                  }`}
+                >
+                  <div className="w-full h-16 rounded-lg overflow-hidden bg-slate-100/60 border border-slate-200/60 flex items-center justify-center p-1 relative">
+                    <img
+                      src={flv.badgeImage}
+                      alt={flv.name}
+                      className="w-full h-full object-contain"
+                    />
+                    {isSelected && (
+                      <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#4c6976] text-white flex items-center justify-center text-[9px] font-black shadow">
+                        ✓
+                      </div>
+                    )}
+                  </div>
+                  <div className="w-full">
+                    <div className={`text-[11px] font-black uppercase truncate ${isSelected ? 'text-[#4c6976]' : 'text-slate-800'}`}>
+                      {flv.name}
+                    </div>
+                    <div className="text-[9px] text-slate-400 font-medium">360g / 60 serv</div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* CTA para saltar a combos */}
+          <button
+            onClick={scrollToPlans}
+            className="w-full mt-3 py-3 rounded-xl bg-black hover:bg-[#4c6976] active:bg-[#4c6976] text-white font-gunplay text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Ver combos y comprar</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* 2. ¿Qué es la Creatina? */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/que-es-la-creatina.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/que es la creatina.jpg"
+              alt="¿Qué es la Creatina Monohidrato DELTA?"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 3. Beneficios */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/beneficios.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/beneficios.jpg"
+              alt="Beneficios de la Creatina Monohidrato"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 4. ¿Cómo Funciona? */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/como-funciona.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/como funciona.jpg"
+              alt="¿Cómo funciona la Creatina en tu cuerpo?"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 5. ¿Te identificas con esto? */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/te-identificas-con-esto.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/te identificas con esto.jpg"
+              alt="¿Te identificas con esto? Obstáculos de atletas"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 6. Comparación */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/comparacion.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/comparacion.jpg"
+              alt="Comparativa Creatina DELTA vs Genéricas"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 7. Opiniones de Clientes */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/opiniones-de-clientes.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/opiniones de clientes.jpg"
+              alt="Opiniones de clientes sobre la Creatina DELTA"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 8. Promoción Especial */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/promocion.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/promocion.jpg"
+              alt="Promoción de Creatina DELTA"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 9. Preguntas Frecuentes */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/preguntas-frecuentes.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/preguntas frecuentes.jpg"
+              alt="Preguntas frecuentes sobre Creatina Monohidrato"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+        {/* 10. Empieza Hoy */}
+        <div className="w-full">
+          <picture>
+            <source srcSet="/images/landing/mobile-creatina/empieza-hoy.webp" type="image/webp" />
+            <img
+              src="/images/landing/mobile-creatina/empieza hoy.jpg"
+              alt="Empieza hoy con Creatina DELTA"
+              className="w-full h-auto block select-none"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+
+      </div>
+
+      {/* ======================================================== */}
+      {/* VISTA DESKTOP (MD+): SECCIONES COMPLETAS Y HERO ORIGINAL */}
+      {/* ======================================================== */}
+      <div className="hidden md:block">
+
       
       {/* ======================================================== */}
       {/* SECCIÓN 1: HERO PRINCIPAL CREATINA MONOHIDRATO          */}
@@ -852,6 +1130,8 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
         </div>
       </section>
 
+      </div>
+
       {/* ======================================================== */}
       {/* SECCIÓN 7: COMBOS Y PLANES (LA UNIDAD, DUO, X3, X4)       */}
       {/* ======================================================== */}
@@ -992,6 +1272,7 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
         </div>
       </section>
 
+      <div className="hidden md:block">
       {/* ======================================================== */}
       {/* SECCIÓN 8: PREGUNTAS FRECUENTES (FAQS)                   */}
       {/* ======================================================== */}
@@ -1091,6 +1372,8 @@ export const CreatinaLandingPage: React.FC<CreatinaLandingPageProps> = ({
 
         </div>
       </section>
+
+      </div>
 
       {/* Floating WhatsApp Button */}
       <a
