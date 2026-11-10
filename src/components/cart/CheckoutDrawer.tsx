@@ -3,10 +3,11 @@ import { CartItem, CustomerOrder } from '../../types/product';
 import { SupplementVisual } from '../common/SupplementVisual';
 import {
   X, Trash2, Plus, Minus, ShieldCheck, Truck, Check, Smartphone,
-  CreditCard, Package, ArrowRight, MessageCircle, FileText, Mail
+  CreditCard, Package, ArrowRight, MessageCircle, FileText, Mail, Banknote
 } from 'lucide-react';
 import { formatCOP } from '../../lib/currency';
 import { openEpaycoCheckout } from '../../services/epaycoService';
+import { createSendingGuide } from '../../services/mipaqueteService';
 
 interface CheckoutDrawerProps {
   isOpen: boolean;
@@ -74,6 +75,23 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
       total,
       paymentMethod,
     };
+
+    // If COD (Contraentrega) or Online, create automated shipment in MiPaquete
+    createSendingGuide({
+      orderId,
+      customerName: name.trim(),
+      customerPhone: phone.trim(),
+      customerEmail: email.trim() || `${phone.trim()}@toponenutrition.com`,
+      customerAddress: address.trim(),
+      customerCity: city.trim(),
+      totalAmount: total,
+      productDescription: cartItems.map((i) => `${i.product.name} (${i.bundle.name})`).join(', '),
+      isCod: paymentMethod === 'cod',
+    }).then((guideRes) => {
+      if (guideRes.success && guideRes.trackingNumber) {
+        console.log('Guía MiPaquete generada exitosamente:', guideRes.trackingNumber);
+      }
+    }).catch(console.error);
 
     // If ePayco payment selected:
     if (paymentMethod === 'epayco') {
@@ -429,7 +447,34 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                     </span>
                   </label>
 
-                  {/* Option 2: WhatsApp Direct */}
+                  {/* Option 2: Contraentrega (Pago al Recibir) */}
+                  <label
+                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer text-xs transition-colors ${
+                      paymentMethod === 'cod'
+                        ? 'border-[#7cb20b] bg-[#7cb20b]/5 font-semibold ring-1 ring-[#7cb20b]/40'
+                        : 'border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="radio"
+                        name="payMethod"
+                        checked={paymentMethod === 'cod'}
+                        onChange={() => setPaymentMethod('cod')}
+                        className="text-[#7cb20b] focus:ring-[#7cb20b]"
+                      />
+                      <Banknote className="w-4 h-4 text-[#7cb20b]" />
+                      <div>
+                        <span>Pago Contra Entrega (Pagas al recibir en casa)</span>
+                        <div className="text-[10px] text-slate-500 font-normal">Pagas en efectivo a la transportadora cuando llegue tu pedido</div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-slate-900 font-mono font-bold bg-[#7cb20b]/20 px-2 py-0.5 rounded border border-[#7cb20b]/40">
+                      Contraentrega
+                    </span>
+                  </label>
+
+                  {/* Option 3: WhatsApp Direct */}
                   <label
                     className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer text-xs transition-colors ${
                       paymentMethod === 'whatsapp'
@@ -519,9 +564,14 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                       <span>Pagar con ePayco</span>
                       <span className="font-mono tabular-nums">({formatCOP(total)})</span>
                     </>
+                  ) : paymentMethod === 'cod' ? (
+                    <>
+                      <span>Confirmar Pedido Contraentrega</span>
+                      <span className="font-mono tabular-nums">({formatCOP(total)})</span>
+                    </>
                   ) : (
                     <>
-                      <span>Confirmar Pedido</span>
+                      <span>Confirmar Pedido por WhatsApp</span>
                       <span className="font-mono tabular-nums">({formatCOP(total)})</span>
                     </>
                   )}
