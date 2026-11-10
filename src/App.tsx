@@ -21,6 +21,7 @@ import { PaymentPendingPage } from './components/cart/PaymentPendingPage';
 import { BlogPostView } from './components/blog/BlogPostView';
 import { BlogIndexPage } from './components/blog/BlogIndexPage';
 import { dbService } from './services/dbService';
+import { createSendingGuide } from './services/mipaqueteService';
 
 const STORAGE_KEY_PRODUCTS = 'topone_products_v2';
 const STORAGE_KEY_CART = 'topone_cart_v1';
@@ -353,6 +354,25 @@ export default function App() {
                     prev.map((o) => (o.id === invoiceId ? { ...o, status: 'en_preparacion' } : o))
                   );
                   dbService.updateOrderStatus(invoiceId, 'en_preparacion').catch(console.error);
+
+                  // Si el pedido fue pagado exitosamente en ePayco, generar el despacho en MiPaquete
+                  if (foundOrder) {
+                    createSendingGuide({
+                      orderId: foundOrder.id,
+                      customerName: foundOrder.customer.name,
+                      customerPhone: foundOrder.customer.phone,
+                      customerEmail: `${foundOrder.customer.phone}@toponenutrition.com`,
+                      customerAddress: foundOrder.customer.address,
+                      customerCity: foundOrder.customer.city,
+                      totalAmount: foundOrder.total,
+                      productDescription: foundOrder.items.map((i) => `${i.product.name} (${i.bundle.name})`).join(', '),
+                      isCod: false, // Pago ya realizado por ePayco
+                    }).then((guideRes) => {
+                      if (guideRes.success) {
+                        console.log('Guía MiPaquete generada para orden pagada en ePayco:', guideRes.trackingNumber);
+                      }
+                    }).catch(console.error);
+                  }
                 }
                 if (foundOrder) {
                   setCompletedOrder(foundOrder);
