@@ -191,6 +191,7 @@ export async function createSendingGuide(params: {
   productDescription: string;
   isCod: boolean; // Contraentrega
   deliveryCompanyId?: string;
+  preferCheapest?: boolean; // Por defecto true para maximizar margen
 }): Promise<ShippingGuideResult> {
   const nameParts = params.customerName.trim().split(' ');
   const firstName = nameParts[0] || 'Cliente';
@@ -199,11 +200,33 @@ export async function createSendingGuide(params: {
 
   const destinyDaneCode = resolveDaneCode(params.customerCity);
 
+  // Si no se especificó transportadora o preferCheapest es true, cotizar en tiempo real y elegir la más barata
+  let chosenDeliveryCompany = params.deliveryCompanyId;
+
+  if (!chosenDeliveryCompany || params.preferCheapest !== false) {
+    try {
+      const quotes = await quoteShipping(params.customerCity, params.totalAmount, 1);
+      if (quotes && quotes.length > 0) {
+        // Ordenar por menor costo
+        quotes.sort((a, b) => a.shippingCost - b.shippingCost);
+        chosenDeliveryCompany = quotes[0].deliveryCompanyId;
+        console.log(`Transportadora óptima seleccionada: ${quotes[0].deliveryCompanyName} ($${quotes[0].shippingCost} COP)`);
+      }
+    } catch (e) {
+      console.warn('No se pudo cotizar antes de enviar, usando fallback Servientrega');
+    }
+  }
+
+  // Fallback seguro si la cotización fallara
+  if (!chosenDeliveryCompany) {
+    chosenDeliveryCompany = '5fceb46c8229797cb139a7aa'; // Servientrega
+  }
+
   const payload = {
     channel: 'ecommerce',
     description: `Orden ${params.orderId} - ${params.productDescription.slice(0, 100)}`,
     paymentType: params.isCod ? 102 : 101, // 102 = Contraentrega, 101 = Pago anticipado
-    deliveryCompany: params.deliveryCompanyId || '5fceb46c8229797cb139a7aa', // Servientrega default
+    deliveryCompany: chosenDeliveryCompany,
     requestPickup: false,
     adminTransactionData: {
       saleValue: Math.round(params.totalAmount),
