@@ -253,6 +253,12 @@ export async function createSendingGuide(params: {
     chosenDeliveryCompany = '5fceb46c8229797cb139a7aa'; // Servientrega
   }
 
+  const rawEmail = params.customerEmail ? params.customerEmail.trim() : '';
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const validatedEmail = emailRegex.test(rawEmail)
+    ? rawEmail
+    : `cliente_${cleanPhone || Date.now()}@toponenutrition.com`;
+
   const payload: Record<string, any> = {
     channel: 'ecommerce',
     description: `Orden ${params.orderId} - ${params.productDescription.slice(0, 100)}`,
@@ -281,7 +287,7 @@ export async function createSendingGuide(params: {
       surname: lastName,
       prefix: '57',
       cellPhone: cleanPhone || '3000000000',
-      email: params.customerEmail || 'cliente@toponenutrition.com',
+      email: validatedEmail,
       destinationAddress: params.customerAddress,
       nit: '10000000',
       nitType: 'CC',
