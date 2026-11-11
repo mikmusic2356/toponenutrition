@@ -222,7 +222,7 @@ export async function createSendingGuide(params: {
     chosenDeliveryCompany = '5fceb46c8229797cb139a7aa'; // Servientrega
   }
 
-  const payload = {
+  const payload: Record<string, any> = {
     channel: 'ecommerce',
     description: `Orden ${params.orderId} - ${params.productDescription.slice(0, 100)}`,
     paymentType: params.isCod ? 102 : 101, // 102 = Contraentrega, 101 = Pago anticipado
@@ -238,7 +238,7 @@ export async function createSendingGuide(params: {
     sender: {
       name: SENDER_CONFIG.name,
       surname: SENDER_CONFIG.surname,
-      prefix: '+57',
+      prefix: '57',
       cellPhone: SENDER_CONFIG.cellPhone,
       email: SENDER_CONFIG.email,
       pickupAddress: SENDER_CONFIG.address,
@@ -248,7 +248,7 @@ export async function createSendingGuide(params: {
     receiver: {
       name: firstName,
       surname: lastName,
-      prefix: '+57',
+      prefix: '57',
       cellPhone: cleanPhone || '3000000000',
       email: params.customerEmail || 'cliente@toponenutrition.com',
       destinationAddress: params.customerAddress,
@@ -266,6 +266,11 @@ export async function createSendingGuide(params: {
       forbiddenProduct: false,
     },
   };
+
+  // Requerido por la API de MiPaquete para pagos Contra Entrega (102)
+  if (params.isCod) {
+    payload.valueCollection = Math.round(params.totalAmount);
+  }
 
   try {
     const res = await fetch(`${BASE_URL}/createSending`, {
