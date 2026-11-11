@@ -96,14 +96,44 @@ function cleanText(text: string): string {
     .trim();
 }
 
+import colombiaLocationsData from '../data/colombiaLocations.json';
+
+export interface LocationItem {
+  name: string;
+  dane: string;
+}
+
+export const COLOMBIA_LOCATIONS: Record<string, LocationItem[]> = colombiaLocationsData;
+export const DEPARTMENTS_LIST: string[] = Object.keys(COLOMBIA_LOCATIONS);
+
 /**
- * Resolves a city name to an 8-digit DANE code
+ * Resolves a city name or DANE code to an 8-digit DANE code
  */
-export function resolveDaneCode(city: string): string {
-  const clean = cleanText(city);
+export function resolveDaneCode(cityOrDane: string): string {
+  if (!cityOrDane) return '11001000';
+  
+  // If already an 8-digit DANE code
+  if (/^\d{8}$/.test(cityOrDane.trim())) {
+    return cityOrDane.trim();
+  }
+
+  const clean = cleanText(cityOrDane);
+
+  // Check in COMMON_DANE_CITIES first
   if (COMMON_DANE_CITIES[clean]) {
     return COMMON_DANE_CITIES[clean];
   }
+
+  // Check in full official colombiaLocations
+  for (const dept of Object.keys(COLOMBIA_LOCATIONS)) {
+    for (const item of COLOMBIA_LOCATIONS[dept]) {
+      const itemClean = cleanText(item.name);
+      if (itemClean === clean || clean.includes(itemClean) || itemClean.includes(clean)) {
+        return item.dane;
+      }
+    }
+  }
+
   for (const [key, dane] of Object.entries(COMMON_DANE_CITIES)) {
     if (clean.includes(key) || key.includes(clean)) {
       return dane;
@@ -187,6 +217,7 @@ export async function createSendingGuide(params: {
   customerEmail: string;
   customerAddress: string;
   customerCity: string;
+  destinyDaneCode?: string; // Optional direct DANE code
   totalAmount: number;
   productDescription: string;
   isCod: boolean; // Contraentrega
@@ -198,14 +229,14 @@ export async function createSendingGuide(params: {
   const lastName = nameParts.slice(1).join(' ') || 'TopOne';
   const cleanPhone = params.customerPhone.replace(/[^0-9]/g, '').slice(-10);
 
-  const destinyDaneCode = resolveDaneCode(params.customerCity);
+  const destinyDaneCode = params.destinyDaneCode || resolveDaneCode(params.customerCity);
 
   // Si no se especificó transportadora o preferCheapest es true, cotizar en tiempo real y elegir la más barata
   let chosenDeliveryCompany = params.deliveryCompanyId;
 
   if (!chosenDeliveryCompany || params.preferCheapest !== false) {
     try {
-      const quotes = await quoteShipping(params.customerCity, params.totalAmount, 1);
+      const quotes = await quoteShipping(destinyDaneCode, params.totalAmount, 1);
       if (quotes && quotes.length > 0) {
         // Ordenar por menor costo
         quotes.sort((a, b) => a.shippingCost - b.shippingCost);

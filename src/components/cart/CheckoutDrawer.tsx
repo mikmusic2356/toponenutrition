@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { formatCOP } from '../../lib/currency';
 import { openEpaycoCheckout } from '../../services/epaycoService';
-import { createSendingGuide } from '../../services/mipaqueteService';
+import { createSendingGuide, COLOMBIA_LOCATIONS, DEPARTMENTS_LIST } from '../../services/mipaqueteService';
 
 interface CheckoutDrawerProps {
   isOpen: boolean;
@@ -36,10 +36,35 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
+  const [department, setDepartment] = useState('BOGOTÁ D.C.');
+  const [city, setCity] = useState('BOGOTÁ D.C.');
+  const [daneCode, setDaneCode] = useState('11001000');
   const [postalCode, setPostalCode] = useState('');
   const [notes, setNotes] = useState('');
   const [isProcessingEpayco, setIsProcessingEpayco] = useState(false);
+
+  // Available cities for currently selected department
+  const availableCities = COLOMBIA_LOCATIONS[department] || [];
+
+  const handleDepartmentChange = (newDept: string) => {
+    setDepartment(newDept);
+    const cities = COLOMBIA_LOCATIONS[newDept] || [];
+    if (cities.length > 0) {
+      setCity(cities[0].name);
+      setDaneCode(cities[0].dane);
+    } else {
+      setCity('');
+      setDaneCode('');
+    }
+  };
+
+  const handleCityChange = (newCityName: string) => {
+    setCity(newCityName);
+    const match = availableCities.find((c) => c.name === newCityName);
+    if (match) {
+      setDaneCode(match.dane);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -57,6 +82,8 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
 
     const orderId = `TOP1-${Math.floor(100000 + Math.random() * 900000)}`;
 
+    const destinationCityFull = `${city} (${department})`;
+
     const newOrder: CustomerOrder = {
       id: orderId,
       createdAt: new Date().toISOString(),
@@ -65,8 +92,8 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
         name: name.trim(),
         phone: phone.trim(),
         address: address.trim(),
-        city: city.trim(),
-        postalCode: postalCode.trim() || 'N/A',
+        city: destinationCityFull,
+        postalCode: daneCode || postalCode.trim() || 'N/A',
         notes: notes.trim() || undefined,
       },
       items: [...cartItems],
@@ -84,6 +111,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
       customerEmail: email.trim() || `${phone.trim()}@toponenutrition.com`,
       customerAddress: address.trim(),
       customerCity: city.trim(),
+      destinyDaneCode: daneCode,
       totalAmount: total,
       productDescription: cartItems.map((i) => `${i.product.name} (${i.bundle.name})`).join(', '),
       isCod: paymentMethod === 'cod',
@@ -139,7 +167,7 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
         )
         .join('%0A');
 
-      const message = `¡Hola TopOneNutrition! Deseo confirmar mi pedido:%0A%0A*Pedido:* ${orderId}%0A*Cliente:* ${name}%0A*Tel:* ${phone}%0A*Dirección:* ${address}, ${postalCode ? `${postalCode} ` : ''}${city}%0A${
+      const message = `¡Hola TopOneNutrition! Deseo confirmar mi pedido:%0A%0A*Pedido:* ${orderId}%0A*Cliente:* ${name}%0A*Tel:* ${phone}%0A*Dirección:* ${address}, ${city} (${department})%0A${
         notes ? `*Notas de entrega:* ${notes}%0A` : ''
       }%0A*Productos:*%0A${summaryText}%0A%0A*Total:* ${formatCOP(total)}`;
 
@@ -373,31 +401,40 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Departamento *
+                  </label>
+                  <select
+                    required
+                    value={department}
+                    onChange={(e) => handleDepartmentChange(e.target.value)}
+                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#7cb20b] font-medium text-slate-800"
+                  >
+                    {DEPARTMENTS_LIST.map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Ciudad / Municipio *
                   </label>
-                  <input
-                    type="text"
+                  <select
                     required
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="Ej. Bogotá, Medellín, Cali..."
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Departamento / Código Postal (Opcional)
-                  </label>
-                  <input
-                    type="text"
-                    value={postalCode}
-                    onChange={(e) => setPostalCode(e.target.value)}
-                    placeholder="Ej. Cundinamarca"
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
-                  />
+                    onChange={(e) => handleCityChange(e.target.value)}
+                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#7cb20b] font-medium text-slate-800"
+                  >
+                    {availableCities.map((c) => (
+                      <option key={`${c.dane}_${c.name}`} value={c.name}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
