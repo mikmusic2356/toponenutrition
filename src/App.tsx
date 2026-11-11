@@ -85,19 +85,24 @@ const SAMPLE_INITIAL_ORDERS: CustomerOrder[] = [
 ];
 
 export default function App() {
-  // Load products from localStorage or default
+  // Load products from localStorage or default (only Creatina and Tank)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_PRODUCTS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Si el producto de creatina no está en el storage previo, incorporarlo
-          const hasCreatina = parsed.some((p: Product) => p.slug === 'creatina-monohidrato' || p.id === 'prod_creatina_01');
-          if (!hasCreatina && DEFAULT_PRODUCTS[0]?.id === 'prod_creatina_01') {
-            return [DEFAULT_PRODUCTS[0], ...parsed];
+          // Filter to only retain Creatina and Tank
+          const filtered = parsed.filter(
+            (p: Product) =>
+              p.slug === 'creatina-monohidrato' ||
+              p.id === 'prod_creatina_01' ||
+              p.slug === 'tank-stronger-mass-gainer' ||
+              p.id === 'prod_tank_01'
+          );
+          if (filtered.length > 0) {
+            return filtered;
           }
-          return parsed;
         }
       }
     } catch (e) {
@@ -207,24 +212,22 @@ export default function App() {
         ]);
         if (isMounted) {
           if (dbProducts && dbProducts.length > 0) {
-            // Garantizar que la creatina esté presente en los productos aunque Turso tenga lista vieja
-            const hasCreatina = dbProducts.some((p) => p.slug === 'creatina-monohidrato' || p.id === 'prod_creatina_01');
-            const mergedProducts = hasCreatina ? dbProducts : [DEFAULT_PRODUCTS[0], ...dbProducts];
-            
-            // Si la creatina no estaba en Turso, guardarla en segundo plano
-            if (!hasCreatina && DEFAULT_PRODUCTS[0]) {
-              dbService.saveProduct(DEFAULT_PRODUCTS[0]).catch(console.error);
-            }
+            // Filtrar únicamente Creatina y TANK Stronger
+            const allowed = dbProducts.filter(
+              (p) =>
+                p.slug === 'creatina-monohidrato' ||
+                p.id === 'prod_creatina_01' ||
+                p.slug === 'tank-stronger-mass-gainer' ||
+                p.id === 'prod_tank_01'
+            );
+            const mergedProducts = allowed.length > 0 ? allowed : DEFAULT_PRODUCTS;
 
             setProducts(mergedProducts);
             setActiveProduct((prev) => {
-              // Si la URL actual tiene un producto específico, respetarlo prioritariamente
               const urlProduct = getProductFromUrl(mergedProducts);
-              if (urlProduct && (urlProduct.slug === 'creatina-monohidrato' || urlProduct.slug === prev.slug)) {
-                return urlProduct;
-              }
+              if (urlProduct) return urlProduct;
               const matched = mergedProducts.find((p) => p.id === prev.id || p.slug === prev.slug);
-              return matched || urlProduct || mergedProducts[0];
+              return matched || mergedProducts[0];
             });
           }
           if (Array.isArray(dbOrders)) {
@@ -294,6 +297,27 @@ export default function App() {
       // Check ePayco callback response or manual state test (?payment=rejected, ?payment=pending, ?payment=success)
       const paymentTestState = search.get('payment') || search.get('estado');
       const orderIdParam = search.get('order_id');
+
+      // Check URL hash for process steps
+      if (hash.startsWith('/gracias') || hash.startsWith('gracias') || hash.startsWith('/pedido-confirmado')) {
+        const hashOrderId = hash.split('/')[2];
+        const foundOrder = orders.find((o) => o.id === hashOrderId) || orders[0] || completedOrder;
+        if (foundOrder) {
+          setCompletedOrder(foundOrder);
+        }
+        setPaymentStatusView('idle');
+        return;
+      }
+
+      if (hash.startsWith('/pago-rechazado') || hash.startsWith('pago-rechazado')) {
+        setPaymentStatusView('rejected');
+        return;
+      }
+
+      if (hash.startsWith('/pago-pendiente') || hash.startsWith('pago-pendiente')) {
+        setPaymentStatusView('pending');
+        return;
+      }
 
       if (paymentTestState === 'rejected' || paymentTestState === 'rechazado' || paymentTestState === 'cancelado') {
         const foundOrder = orders.find((o) => o.id === orderIdParam) || completedOrder;
@@ -376,16 +400,20 @@ export default function App() {
                 }
                 if (foundOrder) {
                   setCompletedOrder(foundOrder);
+                  const prodSlug = foundOrder.items[0]?.product.slug || 'producto';
+                  window.location.hash = `/gracias/${prodSlug}/${foundOrder.id}`;
                 }
                 setPaymentStatusView('idle');
               } 
               // 2: Rechazada | 4: Fallida
               else if (responseCode === '2' || responseCode === '4') {
                 setPaymentStatusView('rejected');
+                window.location.hash = `/pago-rechazado/${invoiceId || refPayco}`;
               } 
               // 3: Pendiente
               else if (responseCode === '3') {
                 setPaymentStatusView('pending');
+                window.location.hash = `/pago-pendiente/${invoiceId || refPayco}`;
               }
             }
           })
@@ -476,6 +504,72 @@ export default function App() {
     window.location.hash = `/blog/${post.slug}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Dynamic SEO and Titles updater for each stage and product
+  useEffect(() => {
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+
+    if (isAdminView) {
+      document.title = 'Panel Administrativo & Constructor Visual | TopOne Nutrition';
+      return;
+    }
+
+    if (completedOrder) {
+      const title = `¡Pedido Confirmado ${completedOrder.id}! | TopOne Nutrition`;
+      document.title = title;
+      if (metaDesc) metaDesc.setAttribute('content', `Página de confirmación y factura del pedido ${completedOrder.id} en TopOne Nutrition.`);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      return;
+    }
+
+    if (paymentStatusView === 'rejected') {
+      const title = 'Pago Rechazado en ePayco | TopOne Nutrition';
+      document.title = title;
+      if (metaDesc) metaDesc.setAttribute('content', 'Detalles de la transacción no aprobada y opciones para reintentar tu pedido.');
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      return;
+    }
+
+    if (paymentStatusView === 'pending') {
+      const title = 'Pago Pendiente de Aprobación | TopOne Nutrition';
+      document.title = title;
+      if (metaDesc) metaDesc.setAttribute('content', 'Tu pago se encuentra en proceso de verificación por la entidad financiera.');
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      return;
+    }
+
+    if (currentView === 'blog_post' && selectedBlogPost) {
+      const title = selectedBlogPost.seoTitle || `${selectedBlogPost.title} | Blog TopOne`;
+      document.title = title;
+      if (metaDesc && selectedBlogPost.seoDescription) metaDesc.setAttribute('content', selectedBlogPost.seoDescription);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      return;
+    }
+
+    if (currentView === 'blog_index') {
+      const title = 'Blog & Guías de Entrenamiento y Nutrición | TopOne Nutrition';
+      document.title = title;
+      const desc = 'Aprende sobre creatina monohidrato, ganadores de masa muscular TANK, dosificación y entrenamiento de fuerza.';
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      return;
+    }
+
+    // Product landing SEO
+    if (activeProduct) {
+      const isCreatina = activeProduct.slug === 'creatina-monohidrato' || activeProduct.id === 'prod_creatina_01';
+      const title = isCreatina
+        ? 'Creatina Monohidrato DELTA 100% Pura Micronizada | TopOne Nutrition'
+        : 'TANK Stronger Mass Gainer // Whey + Quinoa Superfoods | TopOne Nutrition';
+      document.title = title;
+      const desc = activeProduct.tagline || activeProduct.heroSubtitle || activeProduct.name;
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      if (ogDesc) ogDesc.setAttribute('content', desc);
+    }
+  }, [isAdminView, completedOrder, paymentStatusView, currentView, selectedBlogPost, activeProduct]);
 
   // Add to cart handler
   const handleAddToCart = (bundle: BundleTier, flavor: string, size: string) => {
@@ -688,6 +782,8 @@ export default function App() {
     setIsCartOpen(false);
     setCompletedOrder(order);
     dbService.saveOrder(order).catch(console.error);
+    const mainProductSlug = order.items[0]?.product.slug || 'producto';
+    window.location.hash = `/gracias/${mainProductSlug}/${order.id}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -767,10 +863,12 @@ export default function App() {
             onRetry={() => {
               setPaymentStatusView('idle');
               setIsCartOpen(true);
+              window.location.hash = `/producto/${activeProduct.slug}`;
             }}
             onBackToStore={() => {
               setPaymentStatusView('idle');
               setCurrentView('product');
+              window.location.hash = `/producto/${activeProduct.slug}`;
             }}
           />
           <Footer
@@ -800,6 +898,7 @@ export default function App() {
             onBackToStore={() => {
               setPaymentStatusView('idle');
               setCurrentView('product');
+              window.location.hash = `/producto/${activeProduct.slug}`;
             }}
           />
           <Footer
@@ -828,6 +927,7 @@ export default function App() {
             onBackToStore={() => {
               setCompletedOrder(null);
               setCurrentView('product');
+              window.location.hash = `/producto/${activeProduct.slug}`;
             }}
           />
           <Footer
