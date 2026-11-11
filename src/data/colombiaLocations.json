@@ -1,6 +1,10 @@
 {
   "AMAZONAS": [
     {
+      "name": "LETICIA",
+      "dane": "91001000"
+    },
+    {
       "name": "EL ENCANTO",
       "dane": "91263000"
     },
@@ -15,10 +19,6 @@
     {
       "name": "LA VICTORIA",
       "dane": "91430000"
-    },
-    {
-      "name": "LETICIA",
-      "dane": "91001000"
     },
     {
       "name": "PUERTO ALEGRÍA",
@@ -42,6 +42,10 @@
     }
   ],
   "ANTIOQUIA": [
+    {
+      "name": "MEDELLÍN",
+      "dane": "05001000"
+    },
     {
       "name": "ABEJORRAL",
       "dane": "05002000"
@@ -331,10 +335,6 @@
       "dane": "05440000"
     },
     {
-      "name": "MEDELLÍN",
-      "dane": "05001000"
-    },
-    {
       "name": "MONTEBELLO",
       "dane": "05467000"
     },
@@ -621,16 +621,16 @@
   ],
   "ATLÁNTICO": [
     {
+      "name": "BARRANQUILLA",
+      "dane": "08001000"
+    },
+    {
       "name": "AGUADA DE PABLO",
       "dane": "08638001"
     },
     {
       "name": "BARANOA",
       "dane": "08078000"
-    },
-    {
-      "name": "BARRANQUILLA",
-      "dane": "08001000"
     },
     {
       "name": "CAMPECHE",
@@ -749,6 +749,10 @@
   ],
   "BOLÍVAR": [
     {
+      "name": "CARTAGENA",
+      "dane": "13001000"
+    },
+    {
       "name": "ACHÍ",
       "dane": "13006000"
     },
@@ -783,10 +787,6 @@
     {
       "name": "CANTAGALLO",
       "dane": "13160000"
-    },
-    {
-      "name": "CARTAGENA",
-      "dane": "13001000"
     },
     {
       "name": "CASCAJAL",
@@ -990,6 +990,10 @@
     }
   ],
   "BOYACÁ": [
+    {
+      "name": "TUNJA",
+      "dane": "15001000"
+    },
     {
       "name": "ALMEIDA",
       "dane": "15022000"
@@ -1459,10 +1463,6 @@
       "dane": "15238011"
     },
     {
-      "name": "TUNJA",
-      "dane": "15001000"
-    },
-    {
       "name": "TUNUNGUÁ",
       "dane": "15832000"
     },
@@ -1500,6 +1500,10 @@
     }
   ],
   "CALDAS": [
+    {
+      "name": "MANIZALES",
+      "dane": "17001000"
+    },
     {
       "name": "AGUADAS",
       "dane": "17013000"
@@ -1555,10 +1559,6 @@
     {
       "name": "LA MERCED",
       "dane": "17388000"
-    },
-    {
-      "name": "MANIZALES",
-      "dane": "17001000"
     },
     {
       "name": "MANZANARES",
@@ -1639,6 +1639,10 @@
   ],
   "CAQUETÁ": [
     {
+      "name": "FLORENCIA",
+      "dane": "18001000"
+    },
+    {
       "name": "ALBANIA",
       "dane": "18029000"
     },
@@ -1665,10 +1669,6 @@
     {
       "name": "EL PAUJIL",
       "dane": "18256000"
-    },
-    {
-      "name": "FLORENCIA",
-      "dane": "18001000"
     },
     {
       "name": "LA MONTAÑITA",
@@ -1708,6 +1708,10 @@
     }
   ],
   "CASANARE": [
+    {
+      "name": "YOPAL",
+      "dane": "85001000"
+    },
     {
       "name": "AGUAZUL",
       "dane": "85010000"
@@ -1783,13 +1787,13 @@
     {
       "name": "VILLANUEVA",
       "dane": "85440000"
-    },
-    {
-      "name": "YOPAL",
-      "dane": "85001000"
     }
   ],
   "CAUCA": [
+    {
+      "name": "POPAYÁN",
+      "dane": "19001000"
+    },
     {
       "name": "ALMAGUER",
       "dane": "19022000"
@@ -1919,10 +1923,6 @@
       "dane": "19548000"
     },
     {
-      "name": "POPAYÁN",
-      "dane": "19001000"
-    },
-    {
       "name": "PUERTO TEJADA",
       "dane": "19573000"
     },
@@ -1996,6 +1996,10 @@
     }
   ],
   "CESAR": [
+    {
+      "name": "VALLEDUPAR",
+      "dane": "20001000"
+    },
     {
       "name": "AGUACHICA",
       "dane": "20011000"
@@ -2119,13 +2123,13 @@
     {
       "name": "TAMALAMEQUE",
       "dane": "20787000"
-    },
-    {
-      "name": "VALLEDUPAR",
-      "dane": "20001000"
     }
   ],
   "CHOCÓ": [
+    {
+      "name": "QUIBDÓ",
+      "dane": "27001000"
+    },
     {
       "name": "ACANDÍ",
       "dane": "27006000"
@@ -2201,10 +2205,6 @@
     {
       "name": "PUERTO MELUK",
       "dane": "27430000"
-    },
-    {
-      "name": "QUIBDÓ",
-      "dane": "27001000"
     },
     {
       "name": "RIOSUCIO",
@@ -2779,6 +2779,10 @@
   ],
   "CÓRDOBA": [
     {
+      "name": "MONTERÍA",
+      "dane": "23001000"
+    },
+    {
       "name": "AYAPEL",
       "dane": "23068000"
     },
@@ -2851,10 +2855,6 @@
       "dane": "23466000"
     },
     {
-      "name": "MONTERÍA",
-      "dane": "23001000"
-    },
-    {
       "name": "MOÑITOS",
       "dane": "23500000"
     },
@@ -2925,16 +2925,16 @@
   ],
   "GUAINÍA": [
     {
+      "name": "INÍRIDA",
+      "dane": "94001000"
+    },
+    {
       "name": "BARRANCO MINAS",
       "dane": "94343000"
     },
     {
       "name": "CACAHUAL",
       "dane": "94886000"
-    },
-    {
-      "name": "INÍRIDA",
-      "dane": "94001000"
     },
     {
       "name": "LA GUADALUPE",
@@ -2955,6 +2955,10 @@
   ],
   "GUAVIARE": [
     {
+      "name": "SAN JOSÉ DEL GUAVIARE",
+      "dane": "95001000"
+    },
+    {
       "name": "CALAMAR",
       "dane": "95015000"
     },
@@ -2965,13 +2969,13 @@
     {
       "name": "MIRAFLORES",
       "dane": "95200000"
-    },
-    {
-      "name": "SAN JOSÉ DEL GUAVIARE",
-      "dane": "95001000"
     }
   ],
   "HUILA": [
+    {
+      "name": "NEIVA",
+      "dane": "41001000"
+    },
     {
       "name": "ACEVEDO",
       "dane": "41006000"
@@ -3069,10 +3073,6 @@
       "dane": "41483000"
     },
     {
-      "name": "NEIVA",
-      "dane": "41001000"
-    },
-    {
       "name": "OPORAPA",
       "dane": "41503000"
     },
@@ -3159,6 +3159,10 @@
   ],
   "LA GUAJIRA": [
     {
+      "name": "RIOHACHA",
+      "dane": "44001000"
+    },
+    {
       "name": "ALBANIA",
       "dane": "44035000"
     },
@@ -3215,10 +3219,6 @@
       "dane": "44430007"
     },
     {
-      "name": "RIOHACHA",
-      "dane": "44001000"
-    },
-    {
       "name": "SAN JUAN DEL CESAR",
       "dane": "44650000"
     },
@@ -3236,6 +3236,10 @@
     }
   ],
   "MAGDALENA": [
+    {
+      "name": "SANTA MARTA",
+      "dane": "47001000"
+    },
     {
       "name": "ALGARROBO",
       "dane": "47030000"
@@ -3373,10 +3377,6 @@
       "dane": "47720000"
     },
     {
-      "name": "SANTA MARTA",
-      "dane": "47001000"
-    },
-    {
       "name": "SANTA ROSALÍA",
       "dane": "47980007"
     },
@@ -3394,6 +3394,10 @@
     }
   ],
   "META": [
+    {
+      "name": "VILLAVICENCIO",
+      "dane": "50001000"
+    },
     {
       "name": "ACACIAS",
       "dane": "50006000"
@@ -3523,15 +3527,15 @@
       "dane": "50370000"
     },
     {
-      "name": "VILLAVICENCIO",
-      "dane": "50001000"
-    },
-    {
       "name": "VISTA HERMOSA",
       "dane": "50711000"
     }
   ],
   "NARIÑO": [
+    {
+      "name": "PASTO",
+      "dane": "52001000"
+    },
     {
       "name": "ALBÁN",
       "dane": "52838001"
@@ -3701,10 +3705,6 @@
       "dane": "52506000"
     },
     {
-      "name": "PASTO",
-      "dane": "52001000"
-    },
-    {
       "name": "POLICARPA",
       "dane": "52540000"
     },
@@ -3795,6 +3795,10 @@
   ],
   "NORTE DE SANTANDER": [
     {
+      "name": "CÚCUTA",
+      "dane": "54001000"
+    },
+    {
       "name": "ABREGO",
       "dane": "54003000"
     },
@@ -3837,10 +3841,6 @@
     {
       "name": "CONVENCIÓN",
       "dane": "54206000"
-    },
-    {
-      "name": "CÚCUTA",
-      "dane": "54001000"
     },
     {
       "name": "CUCUTILLA",
@@ -3981,16 +3981,16 @@
   ],
   "PUTUMAYO": [
     {
+      "name": "MOCOA",
+      "dane": "86001000"
+    },
+    {
       "name": "COLÓN",
       "dane": "86219000"
     },
     {
       "name": "LEGUÍZAMO",
       "dane": "86573000"
-    },
-    {
-      "name": "MOCOA",
-      "dane": "86001000"
     },
     {
       "name": "ORITO",
@@ -4093,6 +4093,10 @@
   ],
   "RISARALDA": [
     {
+      "name": "PEREIRA",
+      "dane": "66001000"
+    },
+    {
       "name": "APÍA",
       "dane": "66045000"
     },
@@ -4141,10 +4145,6 @@
       "dane": "66456000"
     },
     {
-      "name": "PEREIRA",
-      "dane": "66001000"
-    },
-    {
       "name": "PUEBLO RICO",
       "dane": "66572000"
     },
@@ -4162,6 +4162,10 @@
     }
   ],
   "SANTANDER": [
+    {
+      "name": "BUCARAMANGA",
+      "dane": "68001000"
+    },
     {
       "name": "ACAPULCO",
       "dane": "68307007"
@@ -4201,10 +4205,6 @@
     {
       "name": "BOLÍVAR",
       "dane": "68101000"
-    },
-    {
-      "name": "BUCARAMANGA",
-      "dane": "68001000"
     },
     {
       "name": "CABRERA",
@@ -4573,6 +4573,10 @@
   ],
   "SUCRE": [
     {
+      "name": "SINCELEJO",
+      "dane": "70001000"
+    },
+    {
       "name": "ARMERO",
       "dane": "70823018"
     },
@@ -4669,10 +4673,6 @@
       "dane": "70820000"
     },
     {
-      "name": "SINCELEJO",
-      "dane": "70001000"
-    },
-    {
       "name": "SUCRE",
       "dane": "70771000"
     },
@@ -4682,6 +4682,10 @@
     }
   ],
   "TOLIMA": [
+    {
+      "name": "IBAGUÉ",
+      "dane": "73001000"
+    },
     {
       "name": "ALPUJARRA",
       "dane": "73024000"
@@ -4789,10 +4793,6 @@
     {
       "name": "HONDA",
       "dane": "73349000"
-    },
-    {
-      "name": "IBAGUÉ",
-      "dane": "73001000"
     },
     {
       "name": "ICONONZO",
@@ -4913,6 +4913,10 @@
   ],
   "VALLE DEL CAUCA": [
     {
+      "name": "CALI",
+      "dane": "76001000"
+    },
+    {
       "name": "ALCALÁ",
       "dane": "76020000"
     },
@@ -4951,10 +4955,6 @@
     {
       "name": "CAICEDONIA",
       "dane": "76122000"
-    },
-    {
-      "name": "CALI",
-      "dane": "76001000"
     },
     {
       "name": "CALIMA",
@@ -5143,12 +5143,12 @@
   ],
   "VAUPÉS": [
     {
-      "name": "CARURÚ",
-      "dane": "97161000"
-    },
-    {
       "name": "MITÚ",
       "dane": "97001000"
+    },
+    {
+      "name": "CARURÚ",
+      "dane": "97161000"
     },
     {
       "name": "PACOA",
@@ -5169,16 +5169,16 @@
   ],
   "VICHADA": [
     {
+      "name": "PUERTO CARREÑO",
+      "dane": "99001000"
+    },
+    {
       "name": "CUMARIBO",
       "dane": "99773000"
     },
     {
       "name": "LA PRIMAVERA",
       "dane": "99524000"
-    },
-    {
-      "name": "PUERTO CARREÑO",
-      "dane": "99001000"
     },
     {
       "name": "SANTA ROSALÍA",

@@ -117,18 +117,34 @@ export function resolveDaneCode(cityOrDane: string): string {
     return cityOrDane.trim();
   }
 
-  const clean = cleanText(cityOrDane);
+  // If format is "MEDELLÍN (ANTIOQUIA)", extract "MEDELLÍN"
+  let target = cityOrDane;
+  const parenMatch = target.match(/^([^()]+)\s*\([^()]+\)/);
+  if (parenMatch) {
+    target = parenMatch[1].trim();
+  }
 
-  // Check in COMMON_DANE_CITIES first
+  const clean = cleanText(target);
+
+  // Exact match in COMMON_DANE_CITIES first
   if (COMMON_DANE_CITIES[clean]) {
     return COMMON_DANE_CITIES[clean];
   }
 
-  // Check in full official colombiaLocations
+  // Exact match in full official colombiaLocations
+  for (const dept of Object.keys(COLOMBIA_LOCATIONS)) {
+    for (const item of COLOMBIA_LOCATIONS[dept]) {
+      if (cleanText(item.name) === clean) {
+        return item.dane;
+      }
+    }
+  }
+
+  // Prefix or contains match (longer matches preferred)
   for (const dept of Object.keys(COLOMBIA_LOCATIONS)) {
     for (const item of COLOMBIA_LOCATIONS[dept]) {
       const itemClean = cleanText(item.name);
-      if (itemClean === clean || clean.includes(itemClean) || itemClean.includes(clean)) {
+      if (itemClean.length >= 4 && (clean.includes(itemClean) || itemClean.includes(clean))) {
         return item.dane;
       }
     }

@@ -43,6 +43,24 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
   const [notes, setNotes] = useState('');
   const [isProcessingEpayco, setIsProcessingEpayco] = useState(false);
 
+  // Form touched states for validation messages
+  const [touchedPhone, setTouchedPhone] = useState(false);
+  const [touchedEmail, setTouchedEmail] = useState(false);
+
+  // Phone validation: numbers and spaces only, between 7 and 10 digits
+  const cleanPhoneDigits = phone.replace(/\D/g, '');
+  const hasPhoneLetters = /[a-zA-Z]/.test(phone);
+  const isPhoneInvalid = phone.trim() !== '' && (hasPhoneLetters || cleanPhoneDigits.length < 7 || cleanPhoneDigits.length > 10);
+  const phoneErrorMessage = hasPhoneLetters
+    ? 'El número de teléfono no debe contener letras. Ingrésalo correctamente.'
+    : cleanPhoneDigits.length < 7 && phone.trim() !== ''
+    ? 'Ingresa un número de celular o teléfono válido (mínimo 7 a 10 dígitos).'
+    : '';
+
+  // Email validation: must contain @ with something before and after
+  const isEmailInvalid = email.trim() !== '' && !/^[^\s@]+@[^\s@]+/.test(email.trim());
+  const emailErrorMessage = isEmailInvalid ? 'Ingresa un correo válido que incluya "@" (ejemplo: usuario@correo.com)' : '';
+
   // Available cities for currently selected department
   const availableCities = COLOMBIA_LOCATIONS[department] || [];
 
@@ -75,8 +93,21 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouchedPhone(true);
+    setTouchedEmail(true);
+
     if (!name.trim() || !phone.trim() || !address.trim() || !city.trim()) {
       alert('Por favor completa tu nombre, teléfono, dirección y ciudad para el despacho.');
+      return;
+    }
+
+    if (hasPhoneLetters || cleanPhoneDigits.length < 7) {
+      alert('Por favor corrige tu número de teléfono antes de continuar. No debe contener letras.');
+      return;
+    }
+
+    if (isEmailInvalid) {
+      alert('Por favor ingresa un correo electrónico válido con el símbolo "@".');
       return;
     }
 
@@ -368,22 +399,48 @@ export const CheckoutDrawer: React.FC<CheckoutDrawerProps> = ({
                     type="tel"
                     required
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onBlur={() => setTouchedPhone(true)}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (!touchedPhone) setTouchedPhone(true);
+                    }}
                     placeholder="Ej. 312 345 6789"
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
+                    className={`w-full text-xs p-2.5 rounded-lg border transition-colors focus:outline-none focus:ring-2 ${
+                      touchedPhone && isPhoneInvalid
+                        ? 'border-red-500 bg-red-50/40 text-red-900 focus:ring-red-400'
+                        : 'border-slate-300 focus:ring-[#7cb20b]'
+                    }`}
                   />
+                  {touchedPhone && isPhoneInvalid && (
+                    <p className="mt-1 text-[11px] font-semibold text-red-600 flex items-center gap-1">
+                      <span>⚠</span> {phoneErrorMessage}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Correo Electrónico (Para tu factura ePayco)
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => setTouchedEmail(true)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (!touchedEmail) setTouchedEmail(true);
+                    }}
                     placeholder="tucorreo@ejemplo.com"
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#7cb20b]"
+                    className={`w-full text-xs p-2.5 rounded-lg border transition-colors focus:outline-none focus:ring-2 ${
+                      touchedEmail && isEmailInvalid
+                        ? 'border-red-500 bg-red-50/40 text-red-900 focus:ring-red-400'
+                        : 'border-slate-300 focus:ring-[#7cb20b]'
+                    }`}
                   />
+                  {touchedEmail && isEmailInvalid && (
+                    <p className="mt-1 text-[11px] font-semibold text-red-600 flex items-center gap-1">
+                      <span>⚠</span> {emailErrorMessage}
+                    </p>
+                  )}
                 </div>
               </div>
 
